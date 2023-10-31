@@ -16,16 +16,17 @@ const Reserves = () => {
   }, [startDate])
 
   //las fechas que se excluyen se guardan en este formato dentro de un array
-  const excluir = [
-    new Date('Tue Oct 31 2023 02:00'),
-    new Date('Tue Oct 31 2023 03:00'),
-    new Date('Tue Oct 31 2023 05:00'),
-    
+  const excluirReservas = [
+    // new Date('Wed Nov 01 2023 00:00:00'),
   ]
+
+  // let handleColor = (time) => {
+  //   return time.getHours() > 12 ? "text-success fw-bold" : "text-danger fw-bold";
+  // };
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mt-5 d-flex justify-content-center">
         <DatePicker
           //poner en español
           locale="es"
@@ -51,11 +52,25 @@ const Reserves = () => {
           showTimeSelect
           //texto a mostrar
           timeCaption="Hora"
-
+          //color de texto
+          // timeClassName={}
           timeFormat="HH:mm"
-
+          
+          //Incluidas horas
+          includeTimes={[
+            setHours(setMinutes(new Date(), 0), 11),
+            setHours(setMinutes(new Date(), 0), 12),
+            setHours(setMinutes(new Date(), 0), 13),
+            setHours(setMinutes(new Date(), 0), 14),
+            setHours(setMinutes(new Date(), 0), 19),
+            setHours(setMinutes(new Date(), 0), 20),
+            setHours(setMinutes(new Date(), 0), 21),
+            setHours(setMinutes(new Date(), 0), 22),
+            setHours(setMinutes(new Date(), 0), 23),
+            setHours(setMinutes(new Date(), 0), 0),
+          ]}
           //Excluir horas
-          excludeTimes={excluir}
+          excludeTimes={excluirReservas}
 
           // timeFormat="p" //formato del la hora en pm y am
           timeIntervals={60}
