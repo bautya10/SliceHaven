@@ -1,8 +1,13 @@
 import React from 'react'
+import Footer from '../../components/General/Footer/Footer'
+import Reserves from '../../components/Specific/Reserves/Reserves'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+    <Reserves/>
+    <Footer/>
+    </>
   )
 }
 
