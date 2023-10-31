@@ -1,9 +1,10 @@
+import Home from "./Home/Home"
 
 function App() {
 
   return (
     <>
-    hola puto
+      <Home/>
     </>
   )
 }
