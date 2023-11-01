@@ -3,26 +3,49 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addMonths, setHours, setMinutes } from 'date-fns'; // Importa la función addMonths
 import es from 'date-fns/locale/es';
+import axios from 'axios';
 registerLocale('es', es);
 
 const Reserves = () => {
+  const a = [setHours(setMinutes(new Date(), 0), 11),setHours(setMinutes(new Date(), 0), 11),]
+  console.log(a)
   // const [startDate, setStartDate] = useState(new Date());
 
   const [startDate, setStartDate] = useState(new Date());
   // console.log(startDate)
-
-  useEffect(() => {
-    console.log(startDate.getDate(),startDate.getMonth(),startDate)
-  }, [startDate])
-
+  
+  
+  
   //las fechas que se excluyen se guardan en este formato dentro de un array
-  const excluirReservas = [
-    // new Date('Wed Nov 01 2023 00:00:00'),
-  ]
+  const [excluirReservas, setExcluirReservas] = useState([]);
+  
 
   // let handleColor = (time) => {
   //   return time.getHours() > 12 ? "text-success fw-bold" : "text-danger fw-bold";
   // };
+
+  useEffect(() => {
+    axios.get('https://slicenhaven-backend.onrender.com/reserves/6541fe9d17203a7d3b72108e')
+      .then((peticion) => {
+        console.log('--')
+        const data = peticion.data.result
+        console.log([data])
+        // // console.log('---')
+        // data.forEach(element => {
+          
+          
+          
+        // });
+
+        console.log(excluirReservas)
+        })
+      .catch((error) => console.log(error))
+      // .finally(() => console.log('---'));
+
+      // console.log(startDate.getDate(), startDate.getMonth(), startDate)
+      
+
+  }, [startDate])
 
   return (
     <>
@@ -51,11 +74,11 @@ const Reserves = () => {
           //mostrar hora
           showTimeSelect
           //texto a mostrar
-          timeCaption="Hora"
+          timeCaption="Horas"
           //color de texto
           // timeClassName={}
           timeFormat="HH:mm"
-          
+
           //Incluidas horas
           includeTimes={[
             setHours(setMinutes(new Date(), 0), 11),
@@ -70,7 +93,7 @@ const Reserves = () => {
             setHours(setMinutes(new Date(), 0), 0),
           ]}
           //Excluir horas
-          excludeTimes={excluirReservas}
+          excludeTimes={[excluirReservas]}
 
           // timeFormat="p" //formato del la hora en pm y am
           timeIntervals={60}
