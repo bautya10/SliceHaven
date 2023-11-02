@@ -1,9 +1,25 @@
 import React from 'react'
+import { heightgalery, imagegallery, imagenone } from './ImageGallery.module.css'
+import image1 from '../../../assets/imagegallery/image1.jpg'
+import image2 from '../../../assets/imagegallery/image2.avif'
+import image3 from '../../../assets/imagegallery/image3.avif'
 
-function Imagegallery() {
+function ImageGallery() {
   return (
-    <div>Image-gallery</div>
+    <div className= {`${heightgalery} container-fluid mt-4 align-items-center d-flex`}>
+      <div className='row'>
+        <div className='col-12 col-md-6 col-lg-4 col-xl-4 my-2'>
+          <img src={image1} className= {imagegallery} alt="" />
+        </div>
+        <div className='col-12 col-md-6 col-lg-4 col-xl-4 my-2'>
+          <img src={image2} className= {imagegallery} alt="" />
+        </div>
+        <div className={`col-12 col-md col-lg-4 col-xl-4 my-2 ${imagenone}`}>
+          <img src={image3} className= {imagegallery} alt="" />
+        </div>
+      </div>
+    </div>
   )
 }
 
-export default Imagegallery
+export default ImageGallery
