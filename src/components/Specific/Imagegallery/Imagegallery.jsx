@@ -1,8 +1,8 @@
 import React from 'react'
 import { heightgalery, imagegallery, imagenone } from './ImageGallery.module.css'
 import image1 from '../../../assets/imagegallery/image1.jpg'
-import image2 from '../../../assets/imagegallery/image2.avif'
-import image3 from '../../../assets/imagegallery/image3.avif'
+import image2 from '../../../assets/imagegallery/image2.jpg'
+import image3 from '../../../assets/imagegallery/image3.jpg'
 
 function ImageGallery() {
   return (
