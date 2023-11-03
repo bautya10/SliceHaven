@@ -1,5 +1,6 @@
-import React from 'react'
-import ImageGallery from '../../components/Specific/ImageGallery/ImageGallery'
+import React from 'react';
+import ImageGallery from '../../components/Specific/ImageGallery/Imagegallery';
+
 
 
 
