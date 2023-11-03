@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './ImageGallery.module.css';
+import styles from './galleryImage.module.css';
 import image1 from '../../../assets/imagegallery/image1.jpg';
 import image2 from '../../../assets/imagegallery/image2.jpg';
 import image3 from '../../../assets/imagegallery/image3.jpg';
 
-const ImageGallery = () => {
+const GalleryImage = () => {
   return (
     <div className={`${styles.heightgalery} container-fluid mt-4 align-items-center d-flex`}>
       <div className='row'>
@@ -22,4 +22,4 @@ const ImageGallery = () => {
   )
 }
 
-export default ImageGallery;
+export default GalleryImage;
