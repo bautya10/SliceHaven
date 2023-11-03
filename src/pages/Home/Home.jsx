@@ -1,13 +1,11 @@
-import React from 'react'
-import Footer from '../../components/General/Footer/Footer'
-import Reserves from '../../components/Specific/Reserves/Reserves'
+import React from 'react';
+import GalleryImage from '../../components/Specific/GalleryImage/GalleryImage';
 
 const Home = () => {
   return (
-    <>
-    <Reserves/>
-    <Footer/>
-    </>
+    <div>Home
+      <GalleryImage/>
+    </div>
   )
 }
 

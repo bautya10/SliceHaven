@@ -7,46 +7,43 @@ import axios from 'axios';
 registerLocale('es', es);
 
 const Reserves = () => {
-  const a = [setHours(setMinutes(new Date(), 0), 11),setHours(setMinutes(new Date(), 0), 11),]
-  console.log(a)
-  // const [startDate, setStartDate] = useState(new Date());
+  // const a = [setHours(setMinutes(new Date(), 0), 11),setHours(setMinutes(new Date(), 0), 11),]
+  const a = [new Date(2023,11,3,18,0,0), new Date(2023,11,3,19,0,0),new Date(2023,11,3,20,0,0)]
+  // const b = ['Sun Dec 03 2023 18:00:00 GMT-0300 (hora estándar de Argentina)','Sun Dec 03 2023 19:00:00 GMT-0300 (hora estándar de Argentina)','Sun Dec 03 2023 20:00:00 GMT-0300 (hora estándar de Argentina)'];
+ 
+
+  const [obtenerReservas, setObtenerReservas] = useState([])
 
   const [startDate, setStartDate] = useState(new Date());
-  // console.log(startDate)
-  
-  
-  
+
   //las fechas que se excluyen se guardan en este formato dentro de un array
-  const [excluirReservas, setExcluirReservas] = useState([]);
-  
+  const [excluirReservas, setExcluirReservas] = useState();
 
   // let handleColor = (time) => {
   //   return time.getHours() > 12 ? "text-success fw-bold" : "text-danger fw-bold";
   // };
 
   useEffect(() => {
-    axios.get('https://slicenhaven-backend.onrender.com/reserves/6541fe9d17203a7d3b72108e')
+    axios.get('https://slicenhaven-backend.onrender.com/reserves/654333303151c50d0efab6fa')
       .then((peticion) => {
-        console.log('--')
         const data = peticion.data.result
-        console.log([data])
-        // // console.log('---')
-        // data.forEach(element => {
-          
-          
-          
-        // });
-
-        console.log(excluirReservas)
-        })
+        data.map(resultado => setObtenerReservas(prevState => [prevState, new Date(resultado)]))
+        // setObtenerReservas(data)
+      })
       .catch((error) => console.log(error))
-      // .finally(() => console.log('---'));
+    // .finally(() => console.log('---'));
 
-      // console.log(startDate.getDate(), startDate.getMonth(), startDate)
-      
+    // console.log(startDate.getDate(), startDate.getMonth(), startDate)
+
 
   }, [startDate])
-
+  
+  console.log(obtenerReservas)
+  console.log(a)
+  console.log('---')
+  // obtenerReservas.forEach(reservas => console.log(reservas) )
+  // console.log(excluirReservas)
+  
   return (
     <>
       <div className="container mt-5 d-flex justify-content-center">
@@ -93,7 +90,7 @@ const Reserves = () => {
             setHours(setMinutes(new Date(), 0), 0),
           ]}
           //Excluir horas
-          excludeTimes={[excluirReservas]}
+          excludeTimes={a}
 
           // timeFormat="p" //formato del la hora en pm y am
           timeIntervals={60}

@@ -1,0 +1,17 @@
+.HeightGalery {   
+    background-color: #F8D39C;
+   }
+
+.ImageGallery {
+    width: 100%;
+}
+
+.ImageNone {
+    display:none;
+}
+
+@media (min-width:1020px) {
+    .ImageNone {
+        display:block;
+    }
+}
