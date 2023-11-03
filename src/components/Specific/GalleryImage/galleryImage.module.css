@@ -1,20 +1,17 @@
-.heightgalery {
-    
-    border-radius: 2;
+.HeightGalery {   
     background-color: #F8D39C;
    }
 
-.imagegallery {
+.ImageGallery {
     width: 100%;
-
 }
 
-.imagenone {
+.ImageNone {
     display:none;
 }
 
 @media (min-width:1020px) {
-    .imagenone {
+    .ImageNone {
         display:block;
     }
 }
