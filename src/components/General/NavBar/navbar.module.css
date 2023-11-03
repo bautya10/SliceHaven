@@ -3,6 +3,10 @@
   padding: 10px;
  }
 
+ .imgLogo {
+  width: 50px;
+ }
+
  .customLink {
    color: rgb(0, 0, 0);
    text-decoration: none;
