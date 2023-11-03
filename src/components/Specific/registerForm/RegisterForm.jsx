@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form"
+import axios from 'axios'
 
 
 const RegisterForm = () => {
 
+  const [checkEmail, setCheckEmail] = useState(false)
+
   const {register, handleSubmit, formState:{ errors }, watch} = useForm(); 
 
   const onSubmit = handleSubmit((data)=>{
-    console.log(data)
+    axios.post("http://localhost:8000/users/register", data)
+    .then((response)=> {
+      console.log(response.data)
+    }).catch((error) => {
+      console.log(error.response.data)
+      if (error.response.data === "exist") {
+        setCheckEmail(true)
+      }
+    })
   })
 
   return (
@@ -20,7 +31,7 @@ const RegisterForm = () => {
         <div className='p-2'>
             <div className="mb-3">   
               <input type="text" className={`w-100 ${input} p-2 mb-3`} placeholder='Usuario'
-              {...register("username", {
+              {...register("userName", {
                 required:{
                   value: true,
                   message: "Ingrese un nombre de usuario"
@@ -34,11 +45,14 @@ const RegisterForm = () => {
                  }})}
               />
               {
-                errors.username && <p className='text-danger'>{errors.username.message}</p>
+                errors.userName && <p className='text-danger'>{errors.userName.message}</p>
               }
             </div>
 
             <div className="mb-3">
+            {checkEmail && (
+                <p className='text-light bg-danger p-1'>El correo electrónico ya está en uso. Por favor, use otro correo electrónico.</p>
+              )}
               <input type="email" className={`w-100 ${input} p-2 mb-3`} placeholder='Email'
               {...register("email", {
                 required: {
@@ -51,6 +65,7 @@ const RegisterForm = () => {
                 }
               })}
               />
+        
               {
                 errors.email && <p className='text-danger'>{errors.email.message}</p>
               }
