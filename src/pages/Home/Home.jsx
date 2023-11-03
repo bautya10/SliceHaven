@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import GalleryImage from '../../components/Specific/GalleryImage/GalleryImage';
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>Home
+      <GalleryImage/>
+    </div>
   )
 }
 

@@ -1,0 +1,21 @@
+.customNavbar {
+  background-color: rgb(240, 240, 240);
+  padding: 10px;
+ }
+
+ .customLink {
+   color: rgb(0, 0, 0);
+   text-decoration: none;
+   font-size: 1rem;
+   border: 1px solid rgba(7, 7, 7, 0);
+ }
+ 
+ @media (min-width:1020px) {
+  
+  .customLink:hover {
+    border-bottom: 1px solid black;
+    color: black;
+    transition: 0.5s;
+  }
+  
+}
