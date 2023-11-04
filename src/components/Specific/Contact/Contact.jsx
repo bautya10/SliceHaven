@@ -1,34 +1,113 @@
-import React from 'react'
-import {heightcontact} from './Contact.module.css'
+import React from 'react';
+import styles from '../Contact/formContact.module.css' ;
+import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css';
+import {useForm} from 'react-hook-form'
 
 const Contact = () => {
+  
+  const { register, handleSubmit, formState:{errors}} = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
   return (
-    <div className={`${heightcontact} container-fluid mt-4 p-3`}>
-      <div className='row justify-content-center'>
-        <form className='col-12 col-md-6 col-lg-4'>
-          <div className='mb-3'>
-            <h3>Contactanos</h3>
-          </div>
-          <div className='mb-3'>
-            <label>Name</label>
-            <input type="text" className='form-control'/>
-          </div>
-          <div className='mb-3'>
-            <label>Email</label>
-            <input type="email" className='form-control'/>
-          </div>
-          <div className='mb-3'>
-            <label>Celular</label>
-            <input type="number" className='form-control'/>
-          </div>
-          <div className="mb-3">
-              <label for="Textarea" className="form-label">Comentario</label>
-              <textarea className="form-control" rows="3"></textarea>
-            </div>
-        </form>
+    <div className={`${styles.HeightContact} p-2 my-3 d-flex justify-content-center`}>
+    
+    <form onSubmit={onSubmit} className={`${Cform} col-12 col-md-4 col-lg-4 col-xl-4 row`}>
+
+      {/* Titulo */}
+      <div className=' mb-4 text-black'>
+        <h2 className='display-6'>Contactanos</h2>
       </div>
+
+      {/* nombre */}
+      <div>
+      <label htmlFor="Nombre">Nombre</label>
+      <input className={`w-100 ${input} p-2 mb-3`} type="text"
+      {...register("nombre", {
+        required: {
+          value: true,
+          message: "Ingrese su nombre"
+        },
+        minLength: {
+          value: 2,
+          message: "El nombre debe contener al menos 2 caracteres"
+        },
+        maxLength: {
+          value:40,
+          message: "El nombre debe contener no mas de 40 caracteres"
+        }})}
+      />
+      {
+        errors.nombre && <p className='text-danger'>{errors.nombre.message}</p>
+      }
+      </div>
+
+      {/* telefono/celular */}
+      <div>
+      <label htmlFor="Celular">Celular</label>
+      <input className={`w-100 ${input} p-2 mb-3`} type="number"
+      {...register("celular", {
+        required: {
+          value: true,
+          message: "Ingrese un numero de celular"
+        },
+        min: {
+          value: 9,
+          message: "El numero debe tener minimo 9 caracteres"
+        },
+        max: {
+          value: 15,
+          message: "El numero debe tener no mas de 15 caracteres"
+        }
+      })}
+      />
+      {
+        errors.celular && <p className='text-danger'>errors.celular.message</p>
+      }
+      </div>
+
+      {/* email */}
+      <div>
+      <label htmlFor="Email">Email</label>
+      <input className={`w-100 ${input} p-2 mb-3`} type="email"
+      {...register("email", {
+        required: {
+          value: true,
+          message: "Ingrese un correo"
+        },
+        pattern: {
+          value: /^[a-zA-Z0-9._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/,
+          message: "ingrese un correo valido"
+        }
+      })}
+     />
+      {
+      errors.email && <p className='text-danger'>{errors.email.message}</p>
+      }
+      </div>
+
+      {/* Text Area */}
+      <div>
+      <label for="Textarea" className="form-label">Comentario</label>
+      <textarea className="form-control" rows="3"
+      {...register("comentario",{
+        required: true
+      })}></textarea>
+      {
+         errors.comentario && <p className='text-danger'>Ingrese un comentario</p>
+      }
+      </div>
+
+      {/* Button */}
+      <div className='d-flex pt-3'>
+            <button type="submit" className={`mb-3 ${buttonCustom}`}>Enviar</button>
+          </div>
+
+    </form>
     </div>
   )
 }
 
-export default Contact
+export default Contact;
