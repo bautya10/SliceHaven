@@ -14,7 +14,8 @@ const RegisterForm = () => {
   const onSubmit = handleSubmit((data)=>{
     axios.post("http://localhost:8000/users/register", data)
     .then((response)=> {
-      console.log(response.data)
+      localStorage.setItem("user", JSON.stringify(response.data));
+      console.log(response)
     }).catch((error) => {
       console.log(error.response.data)
       if (error.response.data === "exist") {
@@ -42,7 +43,12 @@ const RegisterForm = () => {
                  }, maxLength:{
                   value: 40,
                   message: "El nombre de usuario debe contener no mas de 40 caracteres"
-                 }})}
+                 },
+                 pattern: {
+                  value: /^[a-zA-Z ]+$/,
+                  message: "Ingrese solo letras, sin numeros ni caracteres especiales"
+                }
+                })}
               />
               {
                 errors.userName && <p className='text-danger'>{errors.userName.message}</p>
@@ -78,13 +84,9 @@ const RegisterForm = () => {
                   value: true,
                   message: "Ingrese una contraseña"
                 },
-                minLength:{
-                  value: 6,
-                  message: "La contraseña debe contener al menos 6 caracteres"
-                },
                 pattern: {
-                  value: /^(?=.*[A-Z])(?=.*\d).+/,
-                  message: "La contraseña debe contener al menos una mayuscula y un numero"
+                  value: /^(?=.*[A-Z])(?=.*\d).{6,}$/,
+                  message: "La contraseña debe contener al menos 6 caracteres, una mayuscula y un numero"
                 },
                 maxLength:{
                   value: 40,
