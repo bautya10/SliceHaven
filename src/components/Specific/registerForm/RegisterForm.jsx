@@ -1,29 +1,30 @@
 import React, { useState } from 'react'
 import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
 
 
 const RegisterForm = () => {
+  const navigate = useNavigate()
 
   const [checkEmail, setCheckEmail] = useState(false)
 
   const {register, handleSubmit, formState:{ errors }, watch} = useForm(); 
 
-  const onSubmit = handleSubmit((data)=>{
-    axios.post("http://localhost:8000/users/register", data)
-    .then((response)=> {
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const response = await axios.post("http://localhost:8000/users/register", data);
       localStorage.setItem("user", JSON.stringify(response.data));
-      console.log(response)
-    }).catch((error) => {
-      console.log(error.response.data)
+      navigate("/")
+    } catch (error) {
+      console.log(error.response.data);
       if (error.response.data === "exist") {
-        setCheckEmail(true)
+        setCheckEmail(true);
       }
-    })
-  })
-
+    }
+  });
+  
   return (
       <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4  ${Cform}`}>
         <div className='text-center mb-4 text-black'>
