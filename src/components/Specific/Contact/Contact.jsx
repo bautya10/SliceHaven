@@ -53,18 +53,18 @@ const Contact = () => {
           value: true,
           message: "Ingrese un numero de celular"
         },
-        min: {
-          value: 9,
-          message: "El numero debe tener minimo 9 caracteres"
-        },
         max: {
           value: 15,
           message: "El numero debe tener no mas de 15 caracteres"
+        },
+        min: {
+          value: 9,
+          message: "El numero debe tener no menos de 9 caracteres"
         }
       })}
       />
       {
-        errors.celular && <p className='text-danger'>errors.celular.message</p>
+        errors.celular && <p className='text-danger'>{errors.celular.message}</p>
       }
       </div>
 
@@ -91,7 +91,7 @@ const Contact = () => {
       {/* Text Area */}
       <div>
       <label for="Textarea" className="form-label">Comentario</label>
-      <textarea className="form-control" rows="3"
+      <textarea className="form-control" rows="3" maxLength="160" minLength="4"
       {...register("comentario",{
         required: true
       })}></textarea>
