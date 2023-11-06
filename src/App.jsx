@@ -3,6 +3,7 @@ import Home from "./pages/Home/Home"
 import NavBar from "./components/General/NavBar/NavBar"
 import Register from "./pages/register/Register"
 import Error404 from "./pages/error/Error404"
+import Login from "./pages/login/Login"
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" Component={Home}/>
         <Route path="/registrar" Component={Register}/>
         <Route path="/*" Component={Error404}/>
+        <Route path="/login" Component={Login}/>
       </Routes>
     </BrowserRouter>
   )
