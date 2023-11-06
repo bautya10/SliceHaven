@@ -21,7 +21,7 @@ const NavBar = () => {
                 <Link to="/" className={`nav-link ${customLink}`} aria-current="page">Inicio</Link>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Quienes somos</a>
+                <a className={`nav-link ${customLink}`} href="#aboutUs">Quienes somos</a>
               </li>
               <li className="nav-item pb-1 pe-3">
                 <a className={`nav-link ${customLink}`} href="#">Reservas</a>

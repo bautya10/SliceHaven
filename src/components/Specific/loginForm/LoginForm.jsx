@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
@@ -17,7 +17,7 @@ const LoginForm = () => {
     axios.post("http://localhost:8000/users/login", data)
       .then((response) => {
         console.log("Inicio de sesión exitoso:", response.data);
-        navigate('/src/main.jsx');
+        navigate('/');
         })
 
       .catch((error) => {
@@ -27,7 +27,7 @@ const LoginForm = () => {
         }
       })
   })
-  
+
   return (
     <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4`}>
       <div className='text-center mb-4 text-black'>
@@ -38,11 +38,11 @@ const LoginForm = () => {
           {loginError && (
             <p className='text-light bg-danger p-1'>Credenciales incorrectas. Por favor, inténtalo de nuevo.</p>
           )}
-          <input type="text" className={`w-100 p-2 mb-3`} placeholder='Usuario'
-            {...register("userName", {
+          <input type="text" className={`w-100 p-2 mb-3`} placeholder='Email'
+            {...register("email", {
               required: {
                 value: true,
-                message: "Ingrese un nombre de usuario"
+                message: "Ingrese su email"
               },
             })}
           />
