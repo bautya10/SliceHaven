@@ -94,6 +94,9 @@
 @media screen and (max-width: 1024px) {
   .memberCard {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);;
+    width: 100%;
+    max-width: none;
+    height: auto;
   }
   .memberCard:hover{
     transition: transform 0;
