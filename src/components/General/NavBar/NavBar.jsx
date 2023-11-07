@@ -33,7 +33,7 @@ const NavBar = () => {
                 <a className={`nav-link ${customLink}`} href="#">Contacto</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Cerrar sesion</a>
+                <Link to="/cerrarSesion" className={`nav-link ${customLink}`}>Cerrar sesion</Link>
               </li>
               <li className="nav-item pb-1 pe-3">
                 <a className={`nav-link ${customLink}`} href="#">Administracion</a>
