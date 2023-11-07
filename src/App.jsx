@@ -24,7 +24,7 @@ function App() {
         <Route path="/" element={user ? <Home /> : <Register />} />
         <Route path="/registrar" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/login" Component={Login}/>
       </Routes>
     </BrowserRouter>
   )

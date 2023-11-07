@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import {Cform, input, buttonCustom} from './LoginForm.module.css'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
@@ -13,23 +14,20 @@ const LoginForm = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    axios.post("http://localhost:8000/users/login", data)
-      .then((response) => {
-        console.log("Inicio de sesión exitoso:", response.data);
-        navigate('/');
-        })
-
-      .catch((error) => {
-        console.log("Error al iniciar sesión:", error.response.data);
-        if (error.response.data === "credenciales incorrectas") {
-          setLoginError(true);
-        }
-      })
-  })
-
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const response = await axios.post("http://localhost:8000/users/login", data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      navigate("/")
+    } catch (error) {
+      console.log(error.response.data);
+      if (error.response.data === "exist") {
+        setLoginError(true);
+      }
+    }
+  });
   return (
-    <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4`}>
+    <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4 ${Cform}`}>
       <div className='text-center mb-4 text-black'>
         <h2 className='display-6'>Iniciar Sesión</h2>
       </div>
@@ -38,11 +36,11 @@ const LoginForm = () => {
           {loginError && (
             <p className='text-light bg-danger p-1'>Credenciales incorrectas. Por favor, inténtalo de nuevo.</p>
           )}
-          <input type="text" className={`w-100 p-2 mb-3`} placeholder='Email'
+          <input type="text" className={`w-100 ${input}  p-2 mb-3`} placeholder='Email'
             {...register("email", {
               required: {
                 value: true,
-                message: "Ingrese su email"
+                message: "Ingrese un email"
               },
             })}
           />
@@ -52,7 +50,7 @@ const LoginForm = () => {
         </div>
 
         <div className="mb-3">
-          <input type="password" className={`w-100 p-2 mb-3`} placeholder='Contraseña'
+          <input type="password" className={`w-100 ${input}  p-2 mb-3`} placeholder='Contraseña'
             {...register("password", {
               required: {
                 value: true,
@@ -66,7 +64,7 @@ const LoginForm = () => {
         </div>
 
         <div className='d-flex justify-content-end pt-3'>
-          <button type="submit" className={`mb-3`}>Iniciar Sesión</button>
+          <button type="submit" className={`mb-3 ${buttonCustom}`}>Iniciar Sesión</button>
         </div>
 
         <div className='text-center pt-2'>
