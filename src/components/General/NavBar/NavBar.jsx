@@ -4,6 +4,8 @@ import { customLink, customNavbar, imgLogo } from './navbar.module.css';
 
 const NavBar = () => {
 
+  const userFound = localStorage.getItem("user")
+
   return (
     <div>
       <nav className={`navbar navbar-expand-lg ${customNavbar}`}>
@@ -17,7 +19,8 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbar">
 
             <ul className="navbar-nav">
-              <li className="nav-item pb-1 pe-3">
+         { userFound &&
+            <><li className="nav-item pb-1 pe-3">
                 <Link to="/" className={`nav-link ${customLink}`} aria-current="page">Inicio</Link>
               </li>
               <li className="nav-item pb-1 pe-3">
@@ -34,13 +37,16 @@ const NavBar = () => {
               </li>
               <li className="nav-item pb-1 pe-3">
                 <a className={`nav-link ${customLink}`} href="#">Administracion</a>
-              </li>
-              <li className="nav-item pb-1 pe-3">
+              </li></>}
+              {!userFound && 
+                (<><li className="nav-item pb-1 pe-3">
                 <Link to="/registrar" className={`nav-link ${customLink}`}>Registrarse</Link>
               </li>
               <li className="nav-item pb-1 pe-3">
                 <Link to="/login" className={`nav-link ${customLink}`}>Iniciar Sesion</Link>
-              </li>
+              </li></>)
+              }
+              
             </ul>
           </div>
         </div>
