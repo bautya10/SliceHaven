@@ -43,7 +43,7 @@ const AboutUs = () => {
   return (
     <div className={`row ${style.aboutUs}`}>
       {members.map((member, index) => (
-        <div key={index} className={style.memberCard}>
+        <div key={index} className={`col-12 col-md-6 col-xl-4 col-lg-3 ${style.memberCard}`}> 
           <div>
             <h2 className={style.memberName}>{member.name}</h2>
             <p className={style.memberDescription}>{member.description}</p>

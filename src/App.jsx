@@ -3,6 +3,7 @@ import Home from "./pages/Home/Home"
 import NavBar from "./components/General/NavBar/NavBar"
 import Register from "./pages/register/Register"
 import Error404 from "./pages/error/Error404"
+import Login from "./pages/login/Login"
 import { useEffect, useState } from "react"
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={user ? <Home /> : <Register />} />
         <Route path="/registrar" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
+        <Route path="/login" Component={Login}/>
       </Routes>
     </BrowserRouter>
   )
