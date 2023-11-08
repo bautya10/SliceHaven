@@ -34,7 +34,7 @@ const NavBar = ({user}) => {
               </li>
             {user ? 
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Cerrar sesion</a>
+                <Link to="/cerrarSesion" className={`nav-link ${customLink}`}>Cerrar sesion</Link>
               </li>
               :
               <>

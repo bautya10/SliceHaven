@@ -4,6 +4,7 @@ import NavBar from "./components/General/NavBar/NavBar"
 import Register from "./pages/register/Register"
 import Error404 from "./pages/error/Error404"
 import Login from "./pages/login/Login"
+import LogOut from "./components/Specific/logOut/logOut"
 import { useState, useEffect } from "react"
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser}/>}/>
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
+        <Route path="/cerrarSesion" Component={LogOut}/>
       </Routes>
     </BrowserRouter>
   )
