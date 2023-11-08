@@ -14,9 +14,8 @@ const RegisterForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response = await axios.post("http://localhost:8000/users/register", data);
-      localStorage.setItem("user", JSON.stringify(response.data));
-      navigate("/")
+      await axios.post("http://localhost:8000/users/register", data);
+      navigate("/login")
     } catch (error) {
       console.log(error.response.data);
       if (error.response.data === "exist") {
