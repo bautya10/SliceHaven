@@ -16,7 +16,7 @@ const LoginForm = ({setUser}) => {
     try {
       const response = await axios.post("http://localhost:8000/users/login", data);
       localStorage.setItem("user", JSON.stringify(response.data));
-      setUser(true)
+      setUser(response.data)
       navigate("/")
     } catch (error) {
       console.log(error.response.data);
