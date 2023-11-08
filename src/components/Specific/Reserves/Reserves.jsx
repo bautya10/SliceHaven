@@ -81,7 +81,7 @@ const Reserves = () => {
           //Excluir horas
           excludeTimes={excluirReservas.map(reservas => new Date(reservas))}
 
-          // timeFormat="p" //formato del la hora en pm y am
+          // timeFormat="p" //formato del la hora en pm y aM
           timeIntervals={60}
 
 
