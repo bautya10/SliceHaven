@@ -3,8 +3,6 @@ import styles from '../Contact/formContact.module.css' ;
 import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css';
 import {useForm} from 'react-hook-form'
 
-
-
 const Contact = () => {
   
   const { register, handleSubmit, formState:{errors}, setValue
@@ -53,7 +51,6 @@ const Contact = () => {
         errors.nombre && <p className='text-danger'>{errors.nombre.message}</p>
       }
       </div>
-
 
       {/* email */}
       <div>
