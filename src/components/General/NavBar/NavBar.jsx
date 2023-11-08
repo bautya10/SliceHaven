@@ -2,9 +2,9 @@ import logo from "../../../assets/logo/logo.png"
 import { Link } from 'react-router-dom';
 import { customLink, customNavbar, imgLogo } from './navbar.module.css';
 
-const NavBar = () => {
+const NavBar = ({user}) => {
 
-  const userFound = localStorage.getItem("user")
+  const admin = user.loguedUser?.userFounded.admin
 
   return (
     <div>
@@ -19,8 +19,8 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbar">
 
             <ul className="navbar-nav">
-         { userFound &&
-            <><li className="nav-item pb-1 pe-3">
+           
+              <li className="nav-item pb-1 pe-3">
                 <Link to="/" className={`nav-link ${customLink}`} aria-current="page">Inicio</Link>
               </li>
               <li className="nav-item pb-1 pe-3">
@@ -32,21 +32,26 @@ const NavBar = () => {
               <li className="nav-item pb-1 pe-3">
                 <a className={`nav-link ${customLink}`} href="#">Contacto</a>
               </li>
+            {user ? 
               <li className="nav-item pb-1 pe-3">
                 <Link to="/cerrarSesion" className={`nav-link ${customLink}`}>Cerrar sesion</Link>
               </li>
+              :
+              <>
+              <li className="nav-item pb-1 pe-3">
+                  <Link to="/register" className={`nav-link ${customLink}`}>Registrarse</Link>
+                </li>
+                <li className="nav-item pb-1 pe-3">
+                  <Link to="/login" className={`nav-link ${customLink}`}>Iniciar Sesion</Link>
+                </li> 
+              </>
+            }
+            {admin &&
               <li className="nav-item pb-1 pe-3">
                 <a className={`nav-link ${customLink}`} href="#">Administracion</a>
-              </li></>}
-              {!userFound && 
-                (<><li className="nav-item pb-1 pe-3">
-                <Link to="/registrar" className={`nav-link ${customLink}`}>Registrarse</Link>
               </li>
-              <li className="nav-item pb-1 pe-3">
-                <Link to="/login" className={`nav-link ${customLink}`}>Iniciar Sesion</Link>
-              </li></>)
-              }
-              
+            }
+
             </ul>
           </div>
         </div>

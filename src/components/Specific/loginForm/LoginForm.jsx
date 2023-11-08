@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import {Cform, input, buttonCustom} from './LoginForm.module.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
 
-
-const LoginForm = () => {
+const LoginForm = ({setUser}) => {
 
   const [loginError, setLoginError] = useState(false);
 
@@ -18,10 +16,11 @@ const LoginForm = () => {
     try {
       const response = await axios.post("http://localhost:8000/users/login", data);
       localStorage.setItem("user", JSON.stringify(response.data));
+      setUser(true)
       navigate("/")
     } catch (error) {
       console.log(error.response.data);
-      if (error.response.data === "exist") {
+      if (error.response.data === "no exist") {
         setLoginError(true);
       }
     }
