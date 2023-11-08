@@ -3,17 +3,27 @@ import styles from '../Contact/formContact.module.css' ;
 import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css';
 import {useForm} from 'react-hook-form'
 
+
+
 const Contact = () => {
   
-  const { register, handleSubmit, formState:{errors}} = useForm();
+  const { register, handleSubmit, formState:{errors}, setValue
+} = useForm();
 
   const onSubmit = handleSubmit((data) => {
     console.log(data)
-  })
+
+    alert('Su comentario fue enviado')
+
+    setValue('email', '')
+    setValue('celular', '')
+    setValue('nombre', '')
+    setValue('comentario', '')
+  });
 
   return (
     <div className={`${styles.HeightContact} p-2 my-3 d-flex justify-content-center`}>
-    
+
     <form onSubmit={onSubmit} className={`${Cform} col-12 col-md-4 col-lg-4 col-xl-4 row`}>
 
       {/* Titulo */}
@@ -44,29 +54,6 @@ const Contact = () => {
       }
       </div>
 
-      {/* telefono/celular */}
-      <div>
-      <label htmlFor="Celular">Celular</label>
-      <input className={`w-100 ${input} p-2 mb-3`} type="number"
-      {...register("celular", {
-        required: {
-          value: true,
-          message: "Ingrese un numero de celular"
-        },
-        max: {
-          value: 15,
-          message: "El numero debe tener no mas de 15 caracteres"
-        },
-        min: {
-          value: 9,
-          message: "El numero debe tener no menos de 9 caracteres"
-        }
-      })}
-      />
-      {
-        errors.celular && <p className='text-danger'>{errors.celular.message}</p>
-      }
-      </div>
 
       {/* email */}
       <div>
