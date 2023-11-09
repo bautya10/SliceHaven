@@ -1,0 +1,5 @@
+.tableContainer {
+  max-height: 1000px; /* Altura máxima para habilitar el desplazamiento vertical */
+  overflow-y: scroll; /* Agrega una barra de desplazamiento vertical si es necesario */
+  overflow-x: auto;
+}
