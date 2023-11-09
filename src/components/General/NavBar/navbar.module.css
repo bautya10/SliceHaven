@@ -11,13 +11,14 @@
    color: rgb(0, 0, 0);
    text-decoration: none;
    font-size: 1rem;
-   border: 1px solid rgba(7, 7, 7, 0);
+   padding: 10px;
+   border: 2px solid rgba(0, 0, 0, 0);
  }
  
  @media (min-width:1020px) {
   
   .customLink:hover {
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid rgb(215, 147, 64);
     color: black;
     transition: 0.5s;
   }

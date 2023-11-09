@@ -21,34 +21,34 @@ const NavBar = ({user}) => {
             <ul className="navbar-nav">
            
               <li className="nav-item pb-1 pe-3">
-                <Link to="/" className={`nav-link ${customLink}`} aria-current="page">Inicio</Link>
+                <Link to="/" className={`${customLink}`} aria-current="page">Inicio</Link>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#aboutUs">Quienes somos</a>
+                <a className={`${customLink}`} href="#aboutUs">Quienes somos</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Reservas</a>
+                <a className={`${customLink}`} href="#">Reservas</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Contacto</a>
+                <a className={`${customLink}`} href="#">Contacto</a>
               </li>
             {user ? 
               <li className="nav-item pb-1 pe-3">
-                <Link to="/cerrarSesion" className={`nav-link ${customLink}`}>Cerrar sesion</Link>
+                <Link to="/cerrarSesion" className={`${customLink}`}>Cerrar sesion</Link>
               </li>
               :
               <>
               <li className="nav-item pb-1 pe-3">
-                  <Link to="/register" className={`nav-link ${customLink}`}>Registrarse</Link>
+                  <Link to="/register" className={`${customLink}`}>Registrarse</Link>
                 </li>
                 <li className="nav-item pb-1 pe-3">
-                  <Link to="/login" className={`nav-link ${customLink}`}>Iniciar Sesion</Link>
+                  <Link to="/login" className={`${customLink}`}>Iniciar Sesion</Link>
                 </li> 
               </>
             }
             {admin &&
               <li className="nav-item pb-1 pe-3">
-                <Link to="/admin" className={`nav-link ${customLink}`}>Administracion</Link>
+                <Link to="/admin" className={`${customLink}`}>Administracion</Link>
               </li>
             }
 
