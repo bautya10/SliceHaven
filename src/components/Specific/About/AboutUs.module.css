@@ -1,6 +1,6 @@
 .aboutUs {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   margin: 20px;
 }
 
@@ -19,7 +19,7 @@
   display: flex; 
   justify-content: center;
   position: relative;
-
+  margin-top: 20px;
 }
 
 .memberCard:hover{
