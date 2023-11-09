@@ -1,6 +1,7 @@
 import logo from "../../../assets/logo/logo.png"
 import { Link } from 'react-router-dom';
 import { customLink, customNavbar, imgLogo } from './navbar.module.css';
+import LogOut from "../../Specific/logOut/logOut";
 
 const NavBar = ({user}) => {
 
@@ -19,7 +20,6 @@ const NavBar = ({user}) => {
           <div className="collapse navbar-collapse" id="navbar">
 
             <ul className="navbar-nav">
-           
               <li className="nav-item pb-1 pe-3">
                 <Link to="/" className={`nav-link ${customLink}`} aria-current="page">Inicio</Link>
               </li>
@@ -34,7 +34,7 @@ const NavBar = ({user}) => {
               </li>
             {user ? 
               <li className="nav-item pb-1 pe-3">
-                <Link to="/cerrarSesion" className={`nav-link ${customLink}`}>Cerrar sesion</Link>
+                <LogOut/>{LogOut}
               </li>
               :
               <>
