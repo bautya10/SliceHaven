@@ -4,7 +4,7 @@ import { customLink, customNavbar, imgLogo } from './navbar.module.css';
 
 const NavBar = ({user}) => {
 
-  const admin = user.loguedUser?.userFounded.admin
+  const admin = user?.loguedUser.userFounded.admin
 
   return (
     <div>
@@ -48,7 +48,7 @@ const NavBar = ({user}) => {
             }
             {admin &&
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Administracion</a>
+                <Link to="/admin" className={`nav-link ${customLink}`}>Administracion</Link>
               </li>
             }
 

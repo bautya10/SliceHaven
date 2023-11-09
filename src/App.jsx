@@ -5,11 +5,12 @@ import Register from "./pages/register/Register"
 import Error404 from "./pages/error/Error404"
 import Login from "./pages/login/Login"
 import LogOut from "./components/Specific/logOut/logOut"
+import Admin from "./pages/admin/Admin"
 import { useState, useEffect } from "react"
 
 function App() {
 
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem("user"));
@@ -17,6 +18,8 @@ function App() {
       setUser(userStorage);
     }
   }, []);
+
+  const admin = user?.loguedUser.userFounded.admin
 
   return (
     <BrowserRouter>
@@ -26,6 +29,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser}/>}/>
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
+        <Route path="/admin" element={!admin ? <Error404/> : <Admin user={user} />} />
         <Route path="/cerrarSesion" Component={LogOut}/>
       </Routes>
     </BrowserRouter>
