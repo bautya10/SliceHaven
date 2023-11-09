@@ -32,15 +32,46 @@ const Reserves = () => {
    }
     funcion();
   }, [startDate])
+
+  // guardar reserva
+  const [crearReserva, SetCrearReserva ] = useState({})
+
+  useEffect(()=>{
+    SetCrearReserva({
+      user: "654acbe7669430e8a05796a0",
+      date: startDate,
+      day: startDate.getDate(),
+      month: startDate.getMonth(),
+      year: startDate.getFullYear(),
+      people: 3
+    })
+  },[startDate])
+
+  // console.log(crearReserva)
+
+  const guardar = async () => {
+    try {
+      const result  = await axios.post('https://slicehaven.onrender.com/reserves/reservesCreate', crearReserva)
+      console.log(result)
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+  
+ 
+  // const [ contador, SetContador ] = useState(1)
+
   
   return (
     <>
-      <div className="container mt-5 d-flex justify-content-center">
+        
+      <div className=" mt-5 d-md-flex justify-content-center">
         <DatePicker
           //poner en español
           locale="es"
           //meses a mostrar
-          monthsShown={2}
+          // monthsShown={2}
           // modo calendario
           inline
 
@@ -87,6 +118,7 @@ const Reserves = () => {
 
         />
       </div>
+        <button onClick={guardar} className='btn btn-primary'>Hacer Reserva</button>
     </>
   )
 }
