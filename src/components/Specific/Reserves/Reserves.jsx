@@ -8,15 +8,21 @@ import Alert from "../Alert/Alert"
 registerLocale('es', es);
 
 const Reserves = () => {
-
+  // funcion para borrar las alertas
   const borrarAlerta = () =>{
     setTimeout(() => {
       setAlerta()
     }, 3000);
   }
+  //estado para una alerta
   const [alerta, setAlerta] = useState()
-  //estado que cambiara la fecha selecionada, por defecto la fecha de hoy
+
+  //estado que cambiara la fecha selecionada, por defecto es la fecha de hoy
   const [startDate, setStartDate] = useState(new Date());
+  
+  //estado que almacenara los dias ocupados, por defecto la fecha de hoy
+  const [diasOcupados, setDiasOcupados] = useState();
+
  // almacenamos en el estado crear reserva el id del usuario si es que se logeo 
   const [crearReserva, setCrearReserva] = useState({
     user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).loguedUser.userFounded._id : '', // Obtén el ID de usuario desde localStorage
@@ -29,6 +35,8 @@ const Reserves = () => {
 
   //estado para excluir las fechas, por defecto es un array
   const [excluirReservas, setExcluirReservas] = useState([]);
+
+  
 
   useEffect(() => {
     //agrego los datos actuales por cada cambio que haya en la fecha selecionada
@@ -110,13 +118,12 @@ const Reserves = () => {
       borrarAlerta();
     }
   };
-  
+
   return (
     <>
      
       <div className=" d-flex justify-content-md-center mb-3  ">
         <div>
-          <div>{alerta}</div>
           <DatePicker
           //poner en español
           locale="es"
@@ -124,7 +131,8 @@ const Reserves = () => {
           // monthsShown={2}
           // modo calendario
           inline
-
+          //excluimos fechas
+          // excludeDates={[new Date(2023,10,10)]}
           //dia de hoy
           todayButton="Día de hoy"
 
@@ -164,6 +172,7 @@ const Reserves = () => {
 
         />
           <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>Hacer Reserva</button>
+          <div>{alerta}</div>
         </div>
       </div>
     </>
