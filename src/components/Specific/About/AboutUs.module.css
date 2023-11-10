@@ -4,6 +4,32 @@
   margin: 20px;
 }
 
+.title{
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: title 3s linear infinite;
+  display: inline-block;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+@keyframes title {
+  to {
+    background-position: 200% center;
+  }
+}
+
 .memberCard {
   width: 250px;
   height: 370px;
@@ -12,7 +38,8 @@
   border-radius: 10px;
   padding: 15px;
   color: #000000;
-  background-color: rgba(158, 158, 158, 0.663);
+  background: rgb(248,211,156);
+  background: linear-gradient(180deg, rgba(248,211,156,1) 0%, rgba(248,211,156,1) 39%, rgba(242,186,82,1) 100%);
   position: relative;
   margin-top: 20px;
 }
@@ -22,6 +49,7 @@
   height: 200px;
   border-radius: 50%;
   object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.413);
   position: relative;
 }
 
@@ -46,25 +74,30 @@
 
 .linkedinIcon {
   color: #0077B5;
+  box-shadow: 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .instagramIcon {
   color: #dd2a7b;
+  box-shadow: 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .githubIcon {
   color: #686868;
+  box-shadow: 0 4px rgba(0, 0, 0, 0.2);
 } 
 
 @media screen and (min-width: 1024px) {
+
   .memberCard {
     width: 250px;
     height: 210px;
     transition: height 0.5s;
+    margin-bottom: 200px;
   }
   
   .memberCard:hover{
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.537);;
     height: 340px;
     transition-timing-function: ease;
   }
@@ -83,6 +116,7 @@
   .memberName {
     opacity: 0;
     transition: 0.6s;
+    
   }
   .memberCard:hover .memberName{
     margin-top: 180px;

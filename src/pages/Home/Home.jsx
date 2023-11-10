@@ -1,4 +1,3 @@
-import React from 'react';
 import GalleryImage from '../../components/Specific/GalleryImage/GalleryImage';
 import About from '../AboutUs/About';
 import Contact from '../../components/Specific/Contact/Contact';
@@ -10,8 +9,8 @@ const Home = () => {
     <div>Home
       <Reserves/>
       <GalleryImage/>
-      <About/>
       <Contact/>
+      <About/>
     </div>
   )
 }
