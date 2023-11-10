@@ -1,10 +1,10 @@
 import style from './AboutUs.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'bootstrap'
-import imagen1 from '../../../assets/AboutUs/Agustin.jpeg'
-import imagen2 from '../../../assets/AboutUs/Bautista.jpeg'
-import imagen3 from '../../../assets/AboutUs/Dana.jpeg'
-import imagen4 from '../../../assets/AboutUs/Emiliano.jpeg'
+import 'bootstrap';
+import imagen1 from '../../../assets/AboutUs/Agustin.jpeg';
+import imagen2 from '../../../assets/AboutUs/Bautista.jpeg';
+import imagen3 from '../../../assets/AboutUs/Dana.jpeg';
+import imagen4 from '../../../assets/AboutUs/Emiliano.jpeg';
 
 const AboutUs = () => {
   const members = [
@@ -42,30 +42,32 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className={`row ${style.aboutUs}`}>
-      {members.map((member, index) => (
-        <div key={index} className={`col-12 col-md-6 col-lg-2 col-xl-2 ${style.memberCard}`}> 
-          <div>
-            <img src={member.image} alt={member.name} className={style.memberImage}/>
-            <h2 className={style.memberName}>{member.name}</h2>
-            <p className={style.memberDescription}>{member.description}</p>
-            <div className={style.socialIcons}>
-              <a href={member.linkedin} target="_blank" rel="noreferrer">
-                <i className={`bi bi-linkedin ${style.linkedinIcon}`}></i>
-              </a>
-              <a href={member.instagram} target="_blank" rel="noreferrer">
-                <i className={`bi bi-instagram ${style.instagramIcon}`}></i>
-              </a>
-              <a href={member.github} target="_blank" rel="noreferrer">
-                <i className={`bi bi-github ${style.githubIcon}`}></i>
-              </a>
+    <div>
+      <h1 className={style.title}>¿Quiénes somos?</h1>
+      <div className={`row ${style.aboutUs}`}>
+        {members.map((member, index) => (
+          <div key={index} className={`col-12 col-md-6 col-lg-3 col-xl-3 ${style.memberCard}`}> 
+            <div>
+              <img src={member.image} alt={member.name} className={style.memberImage}/>
+              <h2 className={style.memberName}>{member.name}</h2>
+              <p className={style.memberDescription}>{member.description}</p>
+              <div className={style.socialIcons}>
+                <a href={member.linkedin} target="_blank" rel="noreferrer">
+                  <i className={`bi bi-linkedin ${style.linkedinIcon}`}></i>
+                </a>
+                <a href={member.instagram} target="_blank" rel="noreferrer">
+                  <i className={`bi bi-instagram ${style.instagramIcon}`}></i>
+                </a>
+                <a href={member.github} target="_blank" rel="noreferrer">
+                  <i className={`bi bi-github ${style.githubIcon}`}></i>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
-export default AboutUs;
 
-// Lin 49-52-55: Al agregar rel="noreferrer", disminuye posibles riesgos de seguridad en navegadores antiguos.
+export default AboutUs;
