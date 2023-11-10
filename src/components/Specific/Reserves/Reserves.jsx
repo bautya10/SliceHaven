@@ -8,6 +8,8 @@ import Alert from "../Alert/Alert"
 registerLocale('es', es);
 
 const Reserves = () => {
+  
+
   // funcion para borrar las alertas
   const borrarAlerta = () =>{
     setTimeout(() => {
@@ -36,7 +38,20 @@ const Reserves = () => {
   //estado para excluir las fechas, por defecto es un array
   const [excluirReservas, setExcluirReservas] = useState([]);
 
-  
+  useEffect(() => {
+    const obtenerTodasLasReservas = async () => {
+      try {
+        const result = await axios.get(`https://slicenhaven-backend.onrender.com/reserves/reservesAll`)
+        // console.log(result.data)
+        setDiasOcupados(result.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    
+    //ejecuto la funcion
+    obtenerTodasLasReservas();
+   },[])
 
   useEffect(() => {
     //agrego los datos actuales por cada cambio que haya en la fecha selecionada
@@ -80,6 +95,9 @@ const Reserves = () => {
             if(fecha.getHours() == startDate.getHours() ){
               // cambio de estado a verdedo
               reservaOcupada = true
+            }
+            if(fecha == setHours(setMinutes(new Date(), 0), 2)){
+              
             }
           });
         }
