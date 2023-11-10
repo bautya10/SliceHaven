@@ -1,5 +1,6 @@
 import style from './AboutUs.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap'
 import imagen1 from '../../../assets/AboutUs/Agustin.jpeg'
 import imagen2 from '../../../assets/AboutUs/Bautista.jpeg'
 import imagen3 from '../../../assets/AboutUs/Dana.jpeg'
@@ -45,6 +46,7 @@ const AboutUs = () => {
       {members.map((member, index) => (
         <div key={index} className={`col-12 col-md-6 col-lg-2 col-xl-2 ${style.memberCard}`}> 
           <div>
+            <img src={member.image} alt={member.name} className={style.memberImage}/>
             <h2 className={style.memberName}>{member.name}</h2>
             <p className={style.memberDescription}>{member.description}</p>
             <div className={style.socialIcons}>
@@ -59,7 +61,6 @@ const AboutUs = () => {
               </a>
             </div>
           </div>
-          <img src={member.image} alt={member.name} className={style.memberImage}/>
         </div>
       ))}
     </div>
