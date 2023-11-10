@@ -4,46 +4,135 @@ import "react-datepicker/dist/react-datepicker.css";
 import { addMonths, setHours, setMinutes } from 'date-fns'; // Importa la función addMonths
 import es from 'date-fns/locale/es';
 import axios from 'axios';
+import Alert from "../Alert/Alert"
 registerLocale('es', es);
 
 const Reserves = () => {
+  // funcion para borrar las alertas
+  const borrarAlerta = () =>{
+    setTimeout(() => {
+      setAlerta()
+    }, 3000);
+  }
+  //estado para una alerta
+  const [alerta, setAlerta] = useState()
+
+  //estado que cambiara la fecha selecionada, por defecto es la fecha de hoy
   const [startDate, setStartDate] = useState(new Date());
+  
+  //estado que almacenara los dias ocupados, por defecto la fecha de hoy
+  const [diasOcupados, setDiasOcupados] = useState();
 
-  let D =startDate.getDate();
-  let M =startDate.getMonth();
-  let Y =startDate.getFullYear();
+ // almacenamos en el estado crear reserva el id del usuario si es que se logeo 
+  const [crearReserva, setCrearReserva] = useState({
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).loguedUser.userFounded._id : '', // Obtén el ID de usuario desde localStorage
+  });
 
-  //las fechas que se excluyen se guardan en este formato dentro de un array
+  //obtenemos el dia, mes y año de la fecha actual
+  let D = startDate.getDate();
+  let M = startDate.getMonth();
+  let Y = startDate.getFullYear();
+
+  //estado para excluir las fechas, por defecto es un array
   const [excluirReservas, setExcluirReservas] = useState([]);
-  // console.log(excluirReservas)
 
-  // let handleColor = (time) => {
-  //   return time.getHours() > 12 ? "text-success fw-bold" : "text-danger fw-bold";
-  // };
+  
 
   useEffect(() => {
-   const funcion = async () =>{
-    try {
-      const result  = await axios.get(`https://slicenhaven-backend.onrender.com/reserves/reserveDate/${D}-${M}-${Y}`)
-      setExcluirReservas(result.data.result)
-    } catch (error) {
-      console.log(error)
+    //agrego los datos actuales por cada cambio que haya en la fecha selecionada
+    setCrearReserva({
+      //obtengo el valor anterior a este estado (el id del usuario) y actualizo con los cambios
+      ...crearReserva,
+      date: startDate,
+      day: startDate.getDate(),
+      month: startDate.getMonth(),
+      year: startDate.getFullYear(),
+      people: 1,
+    })
+
+    //peticion para obtener las reservas ocuapdas del dia seleccionado 
+    const obtenerReservas = async () => {
+      try {
+        // paso dia,mes y año como parametro
+        const result = await axios.get(`https://slicenhaven-backend.onrender.com/reserves/reserveDate/${D}-${M}-${Y}`)
+        // almaceno el resultado en el estado excluir reservas
+        setExcluirReservas(result.data.result)
+      } catch (error) {
+        console.log(error)
+      }
     }
-   }
-    funcion();
+    //ejecuto la funcion
+    obtenerReservas();
   }, [startDate])
-  
+    
+  // esta funcion siver para guardar la reserva
+  const guardar = async () => {
+    //consulta si de crearReserva existe usuario, si no existe pide logear y si sí hace la peticion
+    if(crearReserva.user){
+      try {
+        //un boolean para saber si esta ocuapada la reserva
+        let reservaOcupada = false;
+        //preguinto si la longitud es mayor a 0
+        if(excluirReservas.length > 0){
+          //recorro el array y comparo las horas
+          excluirReservas.forEach(element => {
+            const fecha = new Date(element)
+            if(fecha.getHours() == startDate.getHours() ){
+              // cambio de estado a verdedo
+              reservaOcupada = true
+            }
+          });
+        }
+
+        // prefunto, si reserva ocuada es verdador
+        if(reservaOcupada){
+          //muestro una alerta
+          setAlerta(
+            <Alert
+              texto={'Reserva ya ocupada'}
+              color={'warning'}
+              icon={'bi bi-exclamation-triangle-fill'}
+            />)
+          borrarAlerta();
+        }else{
+          //caso contrario, realizo la peticion
+          await axios.post('http://localhost:8000/reserves/reservesCreate', crearReserva);
+          setAlerta(
+            <Alert
+              texto={'Recerva tomada correctamente'}
+              color={'success'}
+              icon={'bi bi-check-circle-fill'}
+            />)
+          borrarAlerta();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }else{
+      //introducimos una alerta avisando que tienen que iniciar sesion
+      setAlerta(<Alert
+        texto={'Debes iniciar sesion para tomar una reserva'}
+        color={'danger'}
+        icon={'bi bi-exclamation-triangle-fill'}
+      />)
+      borrarAlerta();
+    }
+  };
+
   return (
     <>
-      <div className="container mt-5 d-flex justify-content-center">
-        <DatePicker
+     
+      <div className=" d-flex justify-content-md-center mb-3  ">
+        <div>
+          <DatePicker
           //poner en español
           locale="es"
           //meses a mostrar
-          monthsShown={2}
+          // monthsShown={2}
           // modo calendario
           inline
-
+          //excluimos fechas
+          // excludeDates={[new Date(2023,10,10)]}
           //dia de hoy
           todayButton="Día de hoy"
 
@@ -53,16 +142,11 @@ const Reserves = () => {
           minDate={new Date()} //Fecha minima(fecha de hoy)
           maxDate={addMonths(new Date(), 2)} //Meses maximos
 
-          // excludeDates={[new Date(2023, 9, num)]} // Excluir meses seleccionados
-
-          //configuracion de horas y minutos
-
           //mostrar hora
           showTimeSelect
           //texto a mostrar
           timeCaption="Horas"
-          //color de texto
-          // timeClassName={}
+
           timeFormat="HH:mm"
 
           //Incluidas horas
@@ -78,7 +162,8 @@ const Reserves = () => {
             setHours(setMinutes(new Date(), 0), 23),
             setHours(setMinutes(new Date(), 0), 0),
           ]}
-          //Excluir horas
+
+          //Excluir horas | hacemos un map al array de las reservas ya hechas y le ejecutamos la funcion new Date
           excludeTimes={excluirReservas.map(reservas => new Date(reservas))}
 
           // timeFormat="p" //formato del la hora en pm y aM
@@ -86,6 +171,9 @@ const Reserves = () => {
 
 
         />
+          <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>Hacer Reserva</button>
+          <div>{alerta}</div>
+        </div>
       </div>
     </>
   )
