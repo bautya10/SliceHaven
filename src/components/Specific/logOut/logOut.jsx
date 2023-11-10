@@ -42,7 +42,7 @@ function LogOut() {
                   <button type="button" className="btn btn-light" onClick={handleClose}>
                     Cancelar
                   </button>
-                  <button type="button" className="btn btn-success" onClick={() => { logout(); handleClose(); }}>
+                  <button type="button" className="btn btn-danger" onClick={() => { logout(); handleClose(); }}>
                     Cerrar sesión
                   </button>
                 </div>
