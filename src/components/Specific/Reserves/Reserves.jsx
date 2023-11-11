@@ -35,6 +35,7 @@ const Reserves = () => {
   let M = startDate.getMonth();
   let Y = startDate.getFullYear();
 
+  const [actualizar, setActualizar] = useState(false)
   //estado para excluir las fechas, por defecto es un array
   const [excluirReservas, setExcluirReservas] = useState([]);
 
@@ -47,11 +48,9 @@ const Reserves = () => {
         console.log(error)
       }
     }
-
     //ejecuto la funcion
     obtenerTodasLasReservas();
-
-  }, [])
+  }, [actualizar])
 
   useEffect(() => {
     //agrego los datos actuales por cada cambio que haya en la fecha selecionada
@@ -78,7 +77,9 @@ const Reserves = () => {
     }
     //ejecuto la funcion
     obtenerReservasExcluidas();
-  }, [startDate])
+    setActualizar(false)
+    // console.log(actualizar)
+  }, [startDate, actualizar])
 
 
   const diasDisponibles = (diasOcupados) => {
@@ -96,9 +97,12 @@ const Reserves = () => {
     const fechasOcupadas = Object.keys(reservasPorDia).filter(
       (fecha) => reservasPorDia[fecha].length >= 10
     );
-    
+
+    // console.log(fechasOcupadas.map(element => element.split('-')))
     setDiasOcupados(fechasOcupadas)
   }
+
+
 
   // esta funcion siver para guardar la reserva
   const guardar = async () => {
@@ -152,6 +156,7 @@ const Reserves = () => {
       />)
       borrarAlerta();
     }
+    setActualizar(true)
   };
 
   return (
@@ -200,7 +205,16 @@ const Reserves = () => {
 
             //Excluir horas | hacemos un map al array de las reservas ya hechas y le ejecutamos la funcion new Date
             excludeTimes={excluirReservas.map(reservas => new Date(reservas))}
-            excludeDates={diasOcupados.map(resultado => new Date(resultado.split('-').join(' ')))}
+            excludeDates={
+              diasOcupados.map(fecha => {
+                // Convierte cada fecha al formato deseado
+                const fechaSinGuiones = fecha.split('-');
+                let year = parseInt(fechaSinGuiones[0])
+                let month = parseInt(fechaSinGuiones[1])
+                let day = parseInt(fechaSinGuiones[2])
+                return new Date(year, month, day)
+              })
+            }
             // timeFormat="p" //formato del la hora en pm y aM
             timeIntervals={60}
 
