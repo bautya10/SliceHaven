@@ -11,7 +11,7 @@ function LogOut() {
   const logout = () => {
     localStorage.removeItem('user');
     navigate('/');
-    window.location.reload('/');
+    globalThis.location.reload('/');
   };
 
   return (

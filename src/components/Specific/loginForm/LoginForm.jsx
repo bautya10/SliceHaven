@@ -44,7 +44,7 @@ const LoginForm = ({setUser}) => {
             })}
           />
           {
-            errors.userName && <p className='text-danger'>{errors.userName.message}</p>
+            errors.email && <p className='text-danger'>{errors.email.message}</p>
           }
         </div>
 
