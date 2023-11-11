@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
 
+// eslint-disable-next-line react/prop-types
 const LoginForm = ({setUser}) => {
 
   const [loginError, setLoginError] = useState(false);
@@ -45,7 +46,7 @@ const LoginForm = ({setUser}) => {
             })}
           />
           {
-            errors.userName && <p className='text-danger'>{errors.userName.message}</p>
+            errors.email && <p className='text-danger'>{errors.email.message}</p>
           }
         </div>
 

@@ -56,7 +56,7 @@ const UserTable = ({user}) => {
       if (data.suspended === "") {
         delete data.suspended
       }
-      await axios.patch(`http://localhost:8000/users/${selectedUser?._id}`, data);
+      await axios.patch(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`, data);
 
       globalThis.location.reload();
     } catch (error) {
