@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
@@ -37,14 +37,14 @@ const RegisterForm = () => {
                   value: true,
                   message: "Ingrese un nombre de usuario"
                 },
-                 minLength:{
+                minLength:{
                   value: 2,
                   message: "El nombre de usuario debe contener al menos 2 caracteres"
-                 }, maxLength:{
+                }, maxLength:{
                   value: 40,
                   message: "El nombre de usuario debe contener no mas de 40 caracteres"
-                 },
-                 pattern: {
+                },
+                pattern: {
                   value: /^[a-zA-Z ]+$/,
                   message: "Ingrese solo letras, sin numeros ni caracteres especiales"
                 }
@@ -79,7 +79,7 @@ const RegisterForm = () => {
 
             <div className="mb-3">
               <input type="password" className={`w-100 ${input} p-2 mb-3`} placeholder='Contraseña'
-               {...register("password", {
+                {...register("password", {
                 required: {
                   value: true,
                   message: "Ingrese una contraseña"
@@ -101,8 +101,8 @@ const RegisterForm = () => {
 
             <div className="mb-3">
               <input type="password" className={`w-100 ${input} p-2 mb-3`} placeholder='Repetir contraseña'
-                 {...register("repeatPassword", {
-                  required: {
+                  {...register("repeatPassword", {
+                    required: {
                     value: true,
                     message: "Repita su contraseña"
                   },
@@ -116,7 +116,7 @@ const RegisterForm = () => {
                 
                 })}
               />
-                   {
+                  {
                 errors.repeatPassword && <p className='text-danger'>{errors.repeatPassword.message}</p>
               }
             </div>
