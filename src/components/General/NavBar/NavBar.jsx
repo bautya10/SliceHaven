@@ -30,10 +30,10 @@ const NavBar = ({user}) => {
                 <Link to="/menu" className={`nav-link ${customLink}`} aria-current="page">Menu</Link>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Reservas</a>
+                <a className={`nav-link ${customLink}`} href="#reservas">Reservas</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#">Contacto</a>
+                <a className={`nav-link ${customLink}`} href="#contacto">Contacto</a>
               </li>
             {user ? 
               <li className="nav-item pb-1 pe-3">
