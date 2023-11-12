@@ -1,10 +1,10 @@
 import Reserves from "../../components/Specific/Reserves/Reserves"
-const Reservas = ({user}) => {
+const Reservas = () => {
   return (
     <div>
       <div className=" d-flex justify-content-md-center my-3  " id="reservas">
         <div>
-          <Reserves user={user}/>
+          <Reserves/>
         </div>
       </div>
     </div>
