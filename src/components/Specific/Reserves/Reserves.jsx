@@ -7,9 +7,7 @@ import axios from 'axios';
 import Alert from "../Alert/Alert"
 registerLocale('es', es);
 
-const Reserves = () => {
-
-
+const Reserves = ({user}) => {
   // funcion para borrar las alertas
   const borrarAlerta = () => {
     setTimeout(() => {
@@ -19,6 +17,9 @@ const Reserves = () => {
   // Estado para una alerta
   const [alerta, setAlerta] = useState()
 
+  //estado para la cantidad de personas
+  const [personas, setPersonas] = useState(0)
+
   // Estado que cambiará la fecha selecionada, por defecto es la fecha de hoy
   const [startDate, setStartDate] = useState(new Date());
 
@@ -27,7 +28,7 @@ const Reserves = () => {
 
   // almacenamos en el estado crear reserva el id del usuario si es que se logeo 
   const [crearReserva, setCrearReserva] = useState({
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).loguedUser.userFounded._id : '', // Obtén el ID de usuario desde localStorage
+    user: user ? user.loguedUser.userFounded._id: '', // Obtén el ID de usuario desde localStorage
   });
 
   // Obtenemos el día, mes y año de la fecha actual
@@ -38,6 +39,14 @@ const Reserves = () => {
   const [actualizar, setActualizar] = useState(false)
   //estado para excluir las fechas, por defecto es un array
   const [excluirReservas, setExcluirReservas] = useState([]);
+
+  const cantidadPersonas = (event) => {
+    // Obtener el valor seleccionado del evento
+    const valorSeleccionado = event.target.value;
+
+    // Actualizar el estado con el nuevo valor seleccionado
+    setPersonas(valorSeleccionado);
+  };
 
   useEffect(() => {
     const obtenerTodasLasReservas = async () => {
@@ -61,7 +70,7 @@ const Reserves = () => {
       day: startDate.getDate(),
       month: startDate.getMonth(),
       year: startDate.getFullYear(),
-      people: 1,
+      people: personas,
     })
 
     //peticion para obtener las reservas ocuapdas del dia seleccionado 
@@ -79,8 +88,7 @@ const Reserves = () => {
     obtenerReservasExcluidas();
     setActualizar(false)
     // console.log(actualizar)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startDate, actualizar])
+  }, [startDate, actualizar, personas])
 
 
   const diasDisponibles = (diasOcupados) => {
@@ -134,7 +142,17 @@ const Reserves = () => {
               icon={'bi bi-exclamation-triangle-fill'}
             />)
           borrarAlerta();
-        } else {
+
+        } else if (crearReserva.people == 0) {
+          setAlerta(
+            <Alert
+              texto={'Seleccionar cantidad de personas'}
+              color={'warning'}
+              icon={'bi bi-exclamation-triangle-fill'}
+            />)
+          borrarAlerta();
+        }
+        else {
           //caso contrario, realizo la peticion
           await axios.post('http://localhost:8000/reserves/reservesCreate', crearReserva);
           setAlerta(
@@ -162,22 +180,17 @@ const Reserves = () => {
 
   return (
     <>
-
-       
-      <div className=" d-flex justify-content-md-center mb-3  ">
-
-        <div>
-        <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01"><i class="bi bi-person-fill"></i></label>
-          <select class="form-select" id="inputGroupSelect01">
-            <option selected>Personas</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="4">4</option>
-            <option value="6">6</option>
-            <option value="8">8</option>
-          </select>
-        </div>
+          <div className="input-group mb-3">
+            <label className="input-group-text" htmlFor="personas"><i className="bi bi-person-fill"></i></label>
+            <select className="form-select" id="personas" onChange={cantidadPersonas} value={personas}>
+              <option value={0}>Cantidad de Personas</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={4}>4</option>
+              <option value={6}>6</option>
+              <option value={8}>8</option>
+            </select>
+          </div>
           <DatePicker
             //poner en español
             locale="es"
@@ -236,8 +249,6 @@ const Reserves = () => {
           />
           <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>Hacer Reserva</button>
           <div>{alerta}</div>
-        </div>
-      </div>
     </>
   )
 }

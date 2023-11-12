@@ -5,6 +5,8 @@ import Register from "./pages/register/Register"
 import Error404 from "./pages/error/Error404"
 import Login from "./pages/login/Login"
 import Admin from "./pages/admin/Admin"
+import Footer from "./components/General/Footer/Footer"
+import './style.css'
 import { useState, useEffect } from "react"
 
 function App() {
@@ -24,12 +26,13 @@ function App() {
     <BrowserRouter>
       <NavBar user={user}/>
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home user={user}/>} />
         <Route path="/login" element={<Login setUser={setUser}/>}/>
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
         <Route path="/admin" element={!admin ? <Error404/> : <Admin user={user} />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   )
 }
