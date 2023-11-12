@@ -13,10 +13,10 @@ const Contact = () => {
 
     alert('Su comentario fue enviado')
 
-    setValue('email', '')
-    setValue('celular', '')
-    setValue('nombre', '')
-    setValue('comentario', '')
+    setValue('email', '');
+    setValue('celular', '');
+    setValue('nombre', '');
+    setValue('comentario', '');
   });
 
   return (
@@ -63,7 +63,7 @@ const Contact = () => {
         },
         pattern: {
           value: /^[a-zA-Z0-9._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/,
-          message: "ingrese un correo valido"
+          message: "Ingrese un correo valido"
         }
       })}
      />
@@ -92,6 +92,6 @@ const Contact = () => {
     </form>
     </div>
   )
-}
+};
 
 export default Contact;
