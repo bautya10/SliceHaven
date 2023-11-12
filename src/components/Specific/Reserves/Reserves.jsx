@@ -79,7 +79,7 @@ const Reserves = () => {
     obtenerReservasExcluidas();
     setActualizar(false)
     // console.log(actualizar)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, actualizar])
 
 
@@ -163,8 +163,21 @@ const Reserves = () => {
   return (
     <>
 
+       
       <div className=" d-flex justify-content-md-center mb-3  ">
+
         <div>
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01"><i class="bi bi-person-fill"></i></label>
+          <select class="form-select" id="inputGroupSelect01">
+            <option selected>Personas</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+          </select>
+        </div>
           <DatePicker
             //poner en español
             locale="es"
