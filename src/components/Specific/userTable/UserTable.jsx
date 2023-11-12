@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react'
 import {tableContainer} from "./table.module.css"
 
 
+// eslint-disable-next-line react/prop-types
 const UserTable = ({user}) => {
   const [personas, setPersonas] = useState([])
 
+  // eslint-disable-next-line react/prop-types
   const tokenUser = user?.loguedUser.token
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const UserTable = ({user}) => {
         </tr>
       </thead>
       <tbody>
-         {personas?.map((persona, index) => (
+        {personas?.map((persona, index) => (
             <tr key={index}>
               <th scope="row">{index + 1}</th>
               <td>{persona.userName}</td>
