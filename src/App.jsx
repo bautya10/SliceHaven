@@ -7,6 +7,8 @@ import Login from "./pages/login/Login"
 import Admin from "./pages/admin/Admin"
 import Menu from "./pages/MenuPage/MenuPage"
 import { useState, useEffect } from "react"
+import Footer from "./components/General/Footer/Footer"
+import './style.css'
 
 function App() {
 
@@ -25,13 +27,14 @@ function App() {
     <BrowserRouter>
       <NavBar user={user}/>
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home user={user}/>} />
         <Route path="/login" element={<Login setUser={setUser}/>}/>
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
         <Route path="/admin" element={!admin ? <Error404/> : <Admin user={user} />} />
         <Route path="/menu" element={<Menu />}/>
       </Routes>
+      <Footer/>
     </BrowserRouter>
   )
 }
