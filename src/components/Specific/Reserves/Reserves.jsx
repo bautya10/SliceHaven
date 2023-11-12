@@ -79,6 +79,7 @@ const Reserves = () => {
     obtenerReservasExcluidas();
     setActualizar(false)
     // console.log(actualizar)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, actualizar])
 
 
