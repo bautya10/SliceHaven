@@ -31,3 +31,8 @@
 .buttonCustom:hover{
   background-color: rgb(133, 87, 30);
 }
+
+.error {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.537);
+  border-radius: 10px;
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {Cform, input, buttonCustom} from './LoginForm.module.css'
+import {Cform, input, buttonCustom, error} from './LoginForm.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
@@ -8,6 +8,10 @@ import axios from 'axios'
 const LoginForm = ({setUser}) => {
 
   const [loginError, setLoginError] = useState(false);
+
+  setTimeout(() => {
+    setLoginError()
+  }, 3000);
 
   const navigate = useNavigate();
 
@@ -34,15 +38,19 @@ const LoginForm = ({setUser}) => {
       <div className='p-2'>
         <div className="mb-3">
           {loginError && (
-            <p className='text-light bg-danger p-1'>Credenciales incorrectas. Por favor, inténtalo de nuevo.</p>
+            <p className={`${error} mb-3 text-light bg-danger p-1`}>Credenciales incorrectas. Por favor, inténtalo de nuevo.</p>
           )}
-          <input type="text" className={`w-100 ${input}  p-2 mb-3`} placeholder='Email'
+          <input type="text" className={`w-100 ${input}  p-2 mt-3`} placeholder='Email'
             {...register("email", {
               required: {
                 value: true,
                 message: "Ingrese un email"
               },
-            })}
+              pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/,
+                  message: "ingrese un correo valido"
+                }
+              })}
           />
           {
             errors.email && <p className='text-danger'>{errors.email.message}</p>
@@ -50,12 +58,16 @@ const LoginForm = ({setUser}) => {
         </div>
 
         <div className="mb-3">
-          <input type="password" className={`w-100 ${input}  p-2 mb-3`} placeholder='Contraseña'
+          <input type="password" className={`w-100 ${input}  p-2 mt-3`} placeholder='Contraseña'
             {...register("password", {
               required: {
                 value: true,
                 message: "Ingrese una contraseña"
-              }
+              },
+              pattern: {
+                value: /.{6,}$/,
+                message: "La contraseña debe contener al menos 6 caracteres"
+              },
             })}
           />
           {

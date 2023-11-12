@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import logo from "../../../assets/logo/logo.png"
 import { Link } from 'react-router-dom';
 import { customLink, customNavbar, imgLogo } from './navbar.module.css';
