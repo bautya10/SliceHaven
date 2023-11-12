@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './galleryImage.module.css';
 import image1 from '../../../assets/imagegallery/image1.jpg';
 import image2 from '../../../assets/imagegallery/image2.jpg';
