@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
 
 
+// eslint-disable-next-line react/prop-types
 const UserTable = ({user}) => {
   const { register, handleSubmit, formState: { errors }, setValue} = useForm(); // React hookForm
   

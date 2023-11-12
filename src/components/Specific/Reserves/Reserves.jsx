@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addMonths, setHours, setMinutes } from 'date-fns'; // Importa la función addMonths
@@ -16,10 +16,10 @@ const Reserves = () => {
       setAlerta()
     }, 3000);
   }
-  //estado para una alerta
+  // Estado para una alerta
   const [alerta, setAlerta] = useState()
 
-  //estado que cambiara la fecha selecionada, por defecto es la fecha de hoy
+  // Estado que cambiará la fecha selecionada, por defecto es la fecha de hoy
   const [startDate, setStartDate] = useState(new Date());
 
   //estado que almacenara los dias ocupados, por defecto la fecha de hoy
@@ -30,7 +30,7 @@ const Reserves = () => {
     user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).loguedUser.userFounded._id : '', // Obtén el ID de usuario desde localStorage
   });
 
-  //obtenemos el dia, mes y año de la fecha actual
+  // Obtenemos el día, mes y año de la fecha actual
   let D = startDate.getDate();
   let M = startDate.getMonth();
   let Y = startDate.getFullYear();
@@ -53,9 +53,9 @@ const Reserves = () => {
   }, [actualizar])
 
   useEffect(() => {
-    //agrego los datos actuales por cada cambio que haya en la fecha selecionada
+    // Agrego los datos actuales por cada cambio que haya en la fecha selecionada
     setCrearReserva({
-      //obtengo el valor anterior a este estado (el id del usuario) y actualizo con los cambios
+      // Obtengo el valor anterior a este estado (el id del usuario) y actualizo con los cambios
       ...crearReserva,
       date: startDate,
       day: startDate.getDate(),
@@ -67,9 +67,9 @@ const Reserves = () => {
     //peticion para obtener las reservas ocuapdas del dia seleccionado 
     const obtenerReservasExcluidas = async () => {
       try {
-        // paso dia,mes y año como parametro
+        // Paso día, mes y año como parámetro
         const result = await axios.get(`https://slicenhaven-backend.onrender.com/reserves/reserveDate/${D}-${M}-${Y}`)
-        // almaceno el resultado en el estado excluir reservas
+        // Almacena el resultado en el estado excluir reservas
         setExcluirReservas(result.data.result)
       } catch (error) {
         console.log(error)
@@ -79,6 +79,7 @@ const Reserves = () => {
     obtenerReservasExcluidas();
     setActualizar(false)
     // console.log(actualizar)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, actualizar])
 
 
@@ -109,7 +110,7 @@ const Reserves = () => {
     //consulta si de crearReserva existe usuario, si no existe pide logear y si sí hace la peticion
     if (crearReserva.user) {
       try {
-        //un boolean para saber si esta ocuapada la reserva
+        // Boolean para saber si esta ocuapada la reserva
         let reservaOcupada = false;
         //preguinto si la longitud es mayor a 0
         if (excluirReservas.length > 0) {
