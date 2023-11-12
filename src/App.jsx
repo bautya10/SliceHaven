@@ -5,6 +5,7 @@ import Register from "./pages/register/Register"
 import Error404 from "./pages/error/Error404"
 import Login from "./pages/login/Login"
 import Admin from "./pages/admin/Admin"
+import Menu from "./pages/MenuPage/MenuPage"
 import { useState, useEffect } from "react"
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
         <Route path="/admin" element={!admin ? <Error404/> : <Admin user={user} />} />
+        <Route path="/menu" element={<Menu />}/>
       </Routes>
     </BrowserRouter>
   )
