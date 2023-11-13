@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addMonths, setHours, setMinutes } from 'date-fns'; // Importa la función addMonths
@@ -7,7 +7,8 @@ import axios from 'axios';
 import Alert from "../Alert/Alert"
 registerLocale('es', es);
 
-const Reserves = ({user}) => {
+const Reserves = () => {
+
   // funcion para borrar las alertas
   const borrarAlerta = () => {
     setTimeout(() => {
@@ -18,7 +19,7 @@ const Reserves = ({user}) => {
   const [alerta, setAlerta] = useState()
 
   //estado para la cantidad de personas
-  const [personas, setPersonas] = useState(0)
+  const [personas, setPersonas] = useState('0')
 
   // Estado que cambiará la fecha selecionada, por defecto es la fecha de hoy
   const [startDate, setStartDate] = useState(new Date());
@@ -28,7 +29,7 @@ const Reserves = ({user}) => {
 
   // almacenamos en el estado crear reserva el id del usuario si es que se logeo 
   const [crearReserva, setCrearReserva] = useState({
-    user: user ? user.loguedUser.userFounded._id: '', // Obtén el ID de usuario desde localStorage
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).loguedUser.userFounded._id : '', // Obtén el ID de usuario desde localStorage
   });
 
   // Obtenemos el día, mes y año de la fecha actual
@@ -87,7 +88,6 @@ const Reserves = ({user}) => {
     //ejecuto la funcion
     obtenerReservasExcluidas();
     setActualizar(false)
-    // console.log(actualizar)
   }, [startDate, actualizar, personas])
 
 
@@ -96,18 +96,14 @@ const Reserves = ({user}) => {
 
     diasOcupados.forEach((reserva) => {
       const fecha = `${reserva.year}-${reserva.month}-${reserva.day}`;
-      // console.log(fecha)
       if (!reservasPorDia[fecha]) {
         reservasPorDia[fecha] = [];
       }
       reservasPorDia[fecha].push(reserva);
-      // console.log(reservasPorDia)
     });
     const fechasOcupadas = Object.keys(reservasPorDia).filter(
       (fecha) => reservasPorDia[fecha].length >= 10
     );
-
-    // console.log(fechasOcupadas.map(element => element.split('-')))
     setDiasOcupados(fechasOcupadas)
   }
 
@@ -143,7 +139,7 @@ const Reserves = ({user}) => {
             />)
           borrarAlerta();
 
-        } else if (crearReserva.people == 0) {
+        } else if (crearReserva.people === '0') {
           setAlerta(
             <Alert
               texto={'Seleccionar cantidad de personas'}
@@ -151,6 +147,23 @@ const Reserves = ({user}) => {
               icon={'bi bi-exclamation-triangle-fill'}
             />)
           borrarAlerta();
+        } else if (startDate.getHours() != setHours(setMinutes(new Date(), 0), 11).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 12).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 13).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 14).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 19).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 20).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 21).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 22).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 23).getHours() &&
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 0).getHours()) {
+          setAlerta(
+            <Alert
+              texto={'Seleccione una hora'}
+              color={'warning'}
+              icon={'bi bi-exclamation-triangle-fill'}
+            />)
+          borrarAlerta()
         }
         else {
           //caso contrario, realizo la peticion
@@ -180,75 +193,74 @@ const Reserves = ({user}) => {
 
   return (
     <>
-          <div className="input-group mb-3">
-            <label className="input-group-text" htmlFor="personas"><i className="bi bi-person-fill"></i></label>
-            <select className="form-select" id="personas" onChange={cantidadPersonas} value={personas}>
-              <option value={0}>Cantidad de Personas</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={4}>4</option>
-              <option value={6}>6</option>
-              <option value={8}>8</option>
-            </select>
-          </div>
-          <DatePicker
-            //poner en español
-            locale="es"
-            //meses a mostrar
-            // monthsShown={2}
-            // modo calendario
-            inline
-            //excluimos fechas
-            // excludeDates={[new Date(2023,10,10)]}
-            //dia de hoy
-            todayButton="Día de hoy"
+      <div className="input-group mb-3">
+        <label className="input-group-text" htmlFor="personas"><i className="bi bi-person-fill"></i></label>
+        <select className="form-select" id="personas" onChange={cantidadPersonas} value={personas}>
+          <option value={0}>Cantidad de Personas</option>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={4}>4</option>
+          <option value={6}>6</option>
+          <option value={8}>8</option>
+        </select>
+      </div>
+      <DatePicker
+        //poner en español
+        locale="es"
+        //meses a mostrar
+        // monthsShown={2}
+        // modo calendario
+        inline
+        //excluimos fechas
+        // excludeDates={[new Date(2023,10,10)]}
 
-            selected={startDate} // fecha inicial
-            onChange={(date) => setStartDate(date)} //funcion para cambiar fecha
+        selected={startDate} // fecha inicial
+        onChange={(date) => setStartDate(date)} //funcion para cambiar fecha
 
-            minDate={new Date()} //Fecha minima(fecha de hoy)
-            maxDate={addMonths(new Date(), 2)} //Meses maximos
+        minDate={new Date()} //Fecha minima(fecha de hoy)
+        maxDate={addMonths(new Date(), 2)} //Meses maximos
 
-            //mostrar hora
-            showTimeSelect
-            //texto a mostrar
-            timeCaption="Horas"
+        //mostrar hora
+        showTimeSelect
+        Time
+        //texto a mostrar
+        timeCaption="Horas"
 
-            timeFormat="HH:mm"
+        timeFormat="HH:mm"
 
-            //Incluidas horas
-            includeTimes={[
-              setHours(setMinutes(new Date(), 0), 11),
-              setHours(setMinutes(new Date(), 0), 12),
-              setHours(setMinutes(new Date(), 0), 13),
-              setHours(setMinutes(new Date(), 0), 14),
-              setHours(setMinutes(new Date(), 0), 19),
-              setHours(setMinutes(new Date(), 0), 20),
-              setHours(setMinutes(new Date(), 0), 21),
-              setHours(setMinutes(new Date(), 0), 22),
-              setHours(setMinutes(new Date(), 0), 23),
-              setHours(setMinutes(new Date(), 0), 0),
-            ]}
+        //Incluidas horas
+        includeTimes={[
+          setHours(setMinutes(new Date(), 0), 11),
+          setHours(setMinutes(new Date(), 0), 12),
+          setHours(setMinutes(new Date(), 0), 13),
+          setHours(setMinutes(new Date(), 0), 14),
+          setHours(setMinutes(new Date(), 0), 19),
+          setHours(setMinutes(new Date(), 0), 20),
+          setHours(setMinutes(new Date(), 0), 21),
+          setHours(setMinutes(new Date(), 0), 22),
+          setHours(setMinutes(new Date(), 0), 23),
+          setHours(setMinutes(new Date(), 0), 0),
+        ]}
 
-            //Excluir horas | hacemos un map al array de las reservas ya hechas y le ejecutamos la funcion new Date
-            excludeTimes={excluirReservas.map(reservas => new Date(reservas))}
-            excludeDates={
-              diasOcupados.map(fecha => {
-                // Convierte cada fecha al formato deseado
-                const fechaSinGuiones = fecha.split('-');
-                let year = parseInt(fechaSinGuiones[0])
-                let month = parseInt(fechaSinGuiones[1])
-                let day = parseInt(fechaSinGuiones[2])
-                return new Date(year, month, day)
-              })
-            }
-            // timeFormat="p" //formato del la hora en pm y aM
-            timeIntervals={60}
+        //Excluir horas | hacemos un map al array de las reservas ya hechas y le ejecutamos la funcion new Date
+        excludeTimes={excluirReservas.map(reservas => new Date(reservas))}
+        excludeDates={
+          diasOcupados.map(fecha => {
+            // Convierte cada fecha al formato deseado
+            const fechaSinGuiones = fecha.split('-');
+            let year = parseInt(fechaSinGuiones[0])
+            let month = parseInt(fechaSinGuiones[1])
+            let day = parseInt(fechaSinGuiones[2])
+            return new Date(year, month, day)
+          })
+        }
+        // timeFormat="p" //formato del la hora en pm y aM
+        timeIntervals={60}
 
 
-          />
-          <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>Hacer Reserva</button>
-          <div>{alerta}</div>
+      />
+      <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>Hacer Reserva</button>
+      <div>{alerta}</div>
     </>
   )
 }
