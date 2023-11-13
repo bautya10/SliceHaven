@@ -25,13 +25,13 @@ const NavBar = ({user}) => {
               </li>
              
               <li className="nav-item pb-1 pe-3">
-                <a className={` ${customLink}`} href="#reservas">Reservas</a>
+                <a className={` ${customLink}`} href="/#reservas">Reservas</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={` ${customLink}`} href="#contacto">Contacto</a>
+                <a className={` ${customLink}`} href="/#contacto">Contacto</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`${customLink}`} href="#aboutUs">Quienes somos</a>
+                <a className={`${customLink}`} href="/#aboutUs">Quienes somos</a>
               </li>
               <li className="nav-item pb-1 pe-3">
                 <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
