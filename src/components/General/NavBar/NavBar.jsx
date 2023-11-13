@@ -25,20 +25,20 @@ const NavBar = ({user}) => {
               </li>
              
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#reservas">Reservas</a>
+                <a className={` ${customLink}`} href="#reservas">Reservas</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <a className={`nav-link ${customLink}`} href="#contacto">Contacto</a>
+                <a className={` ${customLink}`} href="#contacto">Contacto</a>
               </li>
               <li className="nav-item pb-1 pe-3">
                 <a className={`${customLink}`} href="#aboutUs">Quienes somos</a>
               </li>
               <li className="nav-item pb-1 pe-3">
-                <Link to="/menu" className={`nav-link ${customLink}`} aria-current="page">Menu</Link>
+                <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
               </li>
             {user ? 
               <li className="nav-item pb-1 pe-3">
-                <LogOut/>{LogOut}
+                <LogOut/>
               </li>
               :
               <>
