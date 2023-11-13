@@ -13,6 +13,7 @@ import './style.css'
 function App() {
 
   const [user, setUser] = useState(null);
+  const [tokenInvalid, setTokenInvalid] = useState(false);
 
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem("user"));
@@ -20,18 +21,17 @@ function App() {
       setUser(userStorage);
     }
   }, []);
-
+  
   const admin = user?.loguedUser.userFounded.admin
-
   return (
     <BrowserRouter>
       <NavBar user={user}/>
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/home" element={<Home/>} />
         <Route path="/login" element={<Login setUser={setUser}/>}/>
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
-        <Route path="/admin" element={!admin ? <Error404/> : <Admin user={user} />} />
+        <Route path="/admin" element={tokenInvalid || !admin ?  <Error404/> : <Admin user={user} setTokenInvalid={setTokenInvalid}/>} />
         <Route path="/menu" element={<Menu />}/>
       </Routes>
       <Footer/>

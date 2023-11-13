@@ -8,7 +8,7 @@ import axios from 'axios'
 const RegisterForm = () => {
   const navigate = useNavigate()
 
-  const [checkEmail, setCheckEmail] = useState(false)
+  const [checkEmail, setCheckEmail] = useState(null)
 
   const {register, handleSubmit, formState:{ errors }, watch} = useForm(); 
 
@@ -17,10 +17,7 @@ const RegisterForm = () => {
       await axios.post("http://localhost:8000/users/register", data);
       navigate("/login")
     } catch (error) {
-      console.log(error.response.data);
-      if (error.response.data === "exist") {
-        setCheckEmail(true);
-      }
+      setCheckEmail(error.response.data);
     }
   });
   
@@ -57,7 +54,7 @@ const RegisterForm = () => {
 
             <div className="mb-3">
             {checkEmail && (
-                <p className='text-light bg-danger p-1'>El correo electrónico ya está en uso. Por favor, use otro correo electrónico.</p>
+                <p className='text-light bg-danger p-1'>{checkEmail}</p>
               )}
               <input type="email" className={`w-100 ${input} p-2 mb-3`} placeholder='Email'
               {...register("email", {

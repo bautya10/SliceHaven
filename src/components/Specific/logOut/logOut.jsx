@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { customLink } from '../../General/NavBar/navbar.module.css';
 
 function LogOut() {
   const navigate = useNavigate();
@@ -16,9 +17,9 @@ function LogOut() {
 
   return (
     <>
-      <button onClick={handleShow} className="nav-link">
+      <a onClick={handleShow} className={customLink}>
         Cerrar sesión
-      </button>
+      </a>
 
       {showModal && (
         <>
