@@ -6,12 +6,15 @@ import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
 
 
 // eslint-disable-next-line react/prop-types
-const UserTable = ({user}) => {
-  const { register, handleSubmit, formState: { errors }, setValue} = useForm(); // React hookForm
-  
+const UserTable = ({user, setTokenInvalid}) => {
+  const { register, handleSubmit, formState: { errors }, reset} = useForm(); // React hookForm
   const [usersInfo, setUsersInfo] = useState([])
   const [selectedUser, setSelectedUser] = useState(null);
+  const [checkEmail, setCheckEmail] = useState(null)
+  const [saveChanges, setSaveChanges] = useState(false)
 
+  
+  
   // Autorizacion del token
   const tokenUser = user?.loguedUser.token
   const id = user?.loguedUser.userFounded._id
@@ -30,10 +33,11 @@ const UserTable = ({user}) => {
           const filteredUsers = users?.data.users.filter(u => u._id !== id);
           setUsersInfo(filteredUsers);
         } catch (error) {
-          console.error('Error al realizar la solicitud:', error);
+          if (error.response.data.message === "El token es invalido") {
+            setTokenInvalid(true)
+          }
         }
       };
-
       getUsers();
     }
   }, [tokenUser]);
@@ -42,33 +46,42 @@ const UserTable = ({user}) => {
   const handleEditClick = (user) => {
     setSelectedUser(user);
   };
-  // Funcion para asignar a los inputs el usuario seleccionado
-  useEffect(() => {
-    setValue("userName", selectedUser?.userName);
-    setValue("email", selectedUser?.email);
-  }, [selectedUser, setValue]);
 
-  // Funcion para enviar formulario
   const onSubmit = handleSubmit(async (data) => {
     try {
-      
-      if (data.password === "") {
-        delete data.password
-      }
-      if (data.admin === "") {
-        delete data.admin
-      }
-      if (data.suspended === "") {
-        delete data.suspended
-      }
-      await axios.patch(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`, data);
+      // Filtramos los campos vacíos
+      const filteredData = Object.fromEntries(
+        Object.entries(data).filter(([key, value]) => value !== "")
+      );
 
-      globalThis.location.reload();
+      console.log(filteredData)
+  
+      await axios.patch(`http://localhost:8000/users/${selectedUser?._id}`, filteredData);
+  
+      setUsersInfo(prevUsers => {
+        const updatedUsers = prevUsers.map(u => (u._id === selectedUser._id ? { ...u, ...filteredData } : u));
+        return updatedUsers;
+      });
+      setCheckEmail("")
+      setSaveChanges(true)
+      reset();
+    } catch (error) {
+      console.log(error)
+      setCheckEmail(error.response.data);
+    }
+    
+  });
+    
+  // Funcion para eliminar un usuario
+  const deleteUser = async () => {
+    try {
+      await axios.delete(`http://localhost:8000/users/${selectedUser?._id}`);
+      // Actualizar el estado local eliminando el usuario de la lista
+      setUsersInfo(prevUsers => prevUsers.filter(u => u._id !== selectedUser._id));
     } catch (error) {
       console.log(error);
     }
-  });
-    
+  };
 
   return (<>
     <div className='text-center mt-3 ' >
@@ -95,8 +108,8 @@ const UserTable = ({user}) => {
                 <td>{user.admin.toString()}</td>
                 <td>{user.suspended.toString()}</td>
                 <td className='text-center'>
-                  <button className='btn btn-danger mx-1'> <i className="bi bi-trash3"></i> </button> 
-                  <button  onClick={() => handleEditClick(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#exampleModal" ><i className="bi bi-pencil-square"></i></button>
+                  <button onClick={() => handleEditClick(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
+                  <button  onClick={() => handleEditClick(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
                 </td>
               </tr>
             ))}
@@ -105,7 +118,7 @@ const UserTable = ({user}) => {
     </div>
 
 {/* modal de edicion */}
-  <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" >
     <div className="modal-dialog">
       <div className="modal-content">
 
@@ -117,21 +130,20 @@ const UserTable = ({user}) => {
           <div className="mb-3">   
                 <input type="text" className={`w-100 ${input} p-2 mb-3`} placeholder={selectedUser?.userName}
                 {...register("userName", {
-                  required:{
-                    value: true,
-                    message: "Ingrese un nombre de usuario"
-                  },
-                  minLength:{
-                    value: 2,
-                    message: "El nombre de usuario debe contener al menos 2 caracteres"
-                  }, maxLength:{
-                    value: 40,
-                    message: "El nombre de usuario debe contener no mas de 40 caracteres"
-                  },
-                  pattern: {
-                    value: /^[a-zA-Z ]+$/,
-                    message: "Ingrese solo letras, sin numeros ni caracteres especiales"
-                  },
+                  validate:{
+                    noValue: (value) => {
+                      if (value.trim() === "") return true; // No aplica validaciones si no se ingresa un carácter
+                      return (
+                       /^[a-zA-Z ]+$/.test(value) ||
+                       "Ingrese solo letras, sin numeros ni caracteres especiales"
+                     );    
+                    },
+                    maxLength: (value) => 
+                    value.trim() === "" || value.length <= 40 || "El usuario no debe contener más de 40 caracteres",   
+                    minLength: (value) =>
+                    value.trim() === "" || value.length > 2 || "El usuario debe contener al menos 2 caracteres",  
+
+                  }
                   })}
                 />
                 {
@@ -140,15 +152,19 @@ const UserTable = ({user}) => {
               </div>
 
               <div className="mb-3">
+              {checkEmail && (
+                <p className='text-light bg-danger p-1'>{checkEmail}</p>
+              )}
               <input type="email" className={`w-100 ${input} p-2 mb-3`} placeholder={selectedUser?.email}
               {...register("email", {
-                required: {
-                  value: true,
-                  message: "Ingrese un correo"
-                },
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/,
-                  message: "ingrese un correo valido"
+                validate:{
+                  noValue: (value) => {
+                    if (value.trim() === "") return true; // No aplica validaciones si no se ingresa un carácter
+                    return (
+                      /^[a-zA-Z0-9._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value) ||
+                      "Ingrese un correo valido"
+                    );            
+                  }
                 }
               })}
 
@@ -203,18 +219,41 @@ const UserTable = ({user}) => {
                 {errors.suspended && <p className='text-danger'>{errors.suspended.message}</p>}
               </div>
 
-
-
+            </div>
+            <div className='d-flex justify-content-between'>
+              <button type="submit" className="btn btn-primary">Guardar cambios</button>
+              <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={()=>{
+                setSaveChanges(false);
+              }}>Cerrar</button>
             </div>
 
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-           <button type="submit" className="btn btn-primary">Save changes</button>
+           {saveChanges && (
+                <p className='text-success p-1'>Cambios guardados</p>
+              )}
         </form>
 
       </div>
     </div>
   </div>
   
+{/* modal para eliminar */}
+    <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h4>Eliminar cuenta</h4>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div className="modal-body">
+            <p className=' font-monospace'>Esta acción eliminara la cuenta definitivamente.</p>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" onClick={deleteUser} className="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </>
   )
 }

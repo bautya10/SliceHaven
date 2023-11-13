@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"
 function App() {
 
   const [user, setUser] = useState(null);
+  const [tokenInvalid, setTokenInvalid] = useState(false);
 
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem("user"));
@@ -18,7 +19,6 @@ function App() {
     }
   }, []);
   
-  const token = user?.loguedUser.token
   const admin = user?.loguedUser.userFounded.admin
   return (
     <BrowserRouter>
@@ -28,7 +28,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser}/>}/>
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
-        <Route path="/admin" element={!token || !admin ?  <Error404/> : <Admin user={user} />} />
+        <Route path="/admin" element={tokenInvalid || !admin ?  <Error404/> : <Admin user={user} setTokenInvalid={setTokenInvalid}/>} />
       </Routes>
     </BrowserRouter>
   )

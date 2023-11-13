@@ -7,7 +7,7 @@ import axios from 'axios'
 // eslint-disable-next-line react/prop-types
 const LoginForm = ({setUser}) => {
 
-  const [loginError, setLoginError] = useState(false);
+  const [loginError, setLoginError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -15,16 +15,13 @@ const LoginForm = ({setUser}) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response = await axios.post("https://slicenhaven-backend.onrender.com/users/login", data);
+      const response = await axios.post("http://localhost:8000/users/login", data);
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data)
       navigate("/")
     } catch (error) {
       console.log(error.response.data);
-      if (error.response.data === "no exist") {
-        console.log(error)
-        setLoginError(true);
-      }
+      setLoginError(error.response.data);
     }
   });
   return (
@@ -35,7 +32,7 @@ const LoginForm = ({setUser}) => {
       <div className='p-2'>
         <div className="mb-3">
           {loginError && (
-            <p className='text-light bg-danger p-1'>Credenciales incorrectas. Por favor, inténtalo de nuevo.</p>
+            <p className='text-light bg-danger p-1'>{loginError}</p>
           )}
           <input type="text" className={`w-100 ${input}  p-2 mb-3`} placeholder='Email'
             {...register("email", {
