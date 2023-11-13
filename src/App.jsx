@@ -17,9 +17,9 @@ function App() {
       setUser(userStorage);
     }
   }, []);
-
+  
+  const token = user?.loguedUser.token
   const admin = user?.loguedUser.userFounded.admin
-
   return (
     <BrowserRouter>
       <NavBar user={user}/>
@@ -28,7 +28,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser}/>}/>
         <Route path="/register" element={<Register/>} />
         <Route path="/*" element={<Error404 />} />
-        <Route path="/admin" element={!admin ? <Error404/> : <Admin user={user} />} />
+        <Route path="/admin" element={!token || !admin ?  <Error404/> : <Admin user={user} />} />
       </Routes>
     </BrowserRouter>
   )

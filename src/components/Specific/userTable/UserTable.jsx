@@ -14,10 +14,11 @@ const UserTable = ({user}) => {
 
   // Autorizacion del token
   const tokenUser = user?.loguedUser.token
+  const id = user?.loguedUser.userFounded._id
   useEffect(() => {
     if (tokenUser) {
       const getUsers = async () => {
-        try {  
+        try {
           const token = tokenUser; // Autorizamos el token
           const config = {
             headers: {
@@ -25,14 +26,17 @@ const UserTable = ({user}) => {
             },
           };
           const users = await axios.get('https://slicenhaven-backend.onrender.com/users', config);
-          setUsersInfo(users?.data.users);
+          // Filtramos la lista de usuarios para excluir al usuario actual
+          const filteredUsers = users?.data.users.filter(u => u._id !== id);
+          setUsersInfo(filteredUsers);
         } catch (error) {
           console.error('Error al realizar la solicitud:', error);
         }
       };
+
       getUsers();
     }
-    }, [tokenUser]);
+  }, [tokenUser]);
 
   // Funcion para editar
   const handleEditClick = (user) => {
