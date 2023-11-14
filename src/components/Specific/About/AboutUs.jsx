@@ -34,7 +34,7 @@ const AboutUs = () => {
     },
     {
       name: "Emiliano Gasco",
-      description: "Soy Gasco, 24 años, soltero (según el documento).",
+      description: "Soy Gasco, 24 años, me gusta programar.",
       instagram: "https://www.instagram.com/gascoemiliano/",
       github: "https://github.com/emilianogasco",
       image: imagen4
