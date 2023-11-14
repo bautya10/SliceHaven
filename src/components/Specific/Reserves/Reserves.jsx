@@ -167,7 +167,7 @@ const Reserves = () => {
         }
         else {
           //caso contrario, realizo la peticion
-          await axios.post('http://localhost:8000/reserves/reservesCreate', crearReserva);
+          await axios.post('https://slicenhaven-backend.onrender.com/reserves/reservesCreate', crearReserva);
           setAlerta(
             <Alert
               texto={'Recerva tomada correctamente'}
