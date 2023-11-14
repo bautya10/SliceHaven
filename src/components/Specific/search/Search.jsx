@@ -10,9 +10,9 @@ const Search = ({ setPage, setSearching, setError}) => {
   };
 
   return (
-    <div>
+    <div className='d-flex justify-content-center'>
       <input
-    className="form-control"
+    className="form-control w-50"
     type="text"
     placeholder="Buscar..."
     onChange={searcher}
