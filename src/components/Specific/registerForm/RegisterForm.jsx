@@ -12,6 +12,7 @@ const RegisterForm = () => {
 
   const {register, handleSubmit, formState:{ errors }, watch} = useForm(); 
 
+  
   const onSubmit = handleSubmit(async (data) => {
     try {
       await axios.post("https://slicenhaven-backend.onrender.com/users/register", data);

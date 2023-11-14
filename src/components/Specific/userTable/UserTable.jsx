@@ -125,6 +125,7 @@ const UserTable = ({user, setTokenInvalid}) => {
   </div>
   <div className="container">
       <ReserveTable/>
+      
     </div>
 
 {/* modal de edicion */}

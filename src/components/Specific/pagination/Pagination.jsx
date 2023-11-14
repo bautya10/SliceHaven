@@ -1,6 +1,7 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
 
+
 const Pagination = ({setPage, totalPages}) => {
   const cambiarPagina = (e) => {
     const selectedPage = e.selected + 1;
