@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
 import Pagination from '../pagination/Pagination'
 import ReserveTable from '../ReserveTable/ReserveTable'
+import Search from '../search/Search'
 
 // eslint-disable-next-line react/prop-types
 const UserTable = ({user, setTokenInvalid}) => {
@@ -20,6 +21,11 @@ const UserTable = ({user, setTokenInvalid}) => {
   //Paginacion
   const [totalPages, setTotalPages] = useState("");
   const [page, setPage] = useState("");
+  //search
+  const [searching, setSearching] = useState("");
+  const [error, setError] = useState(false);
+
+  console.log(searching)
 
   // Autorizacion del token
   const tokenUser = user?.loguedUser.token
@@ -33,11 +39,12 @@ const UserTable = ({user, setTokenInvalid}) => {
               'Authorization': `Bearer ${tokenUser}`,
             },
           };
-          const {data} = await axios.get(`https://slicenhaven-backend.onrender.com/users?${page}`, config);
+          const {data} = await axios.get(`https://slicenhaven-backend.onrender.com/users?${page}${searching}`, config);
           const filteredUsers = data?.info.users;
           setUsersInfo(filteredUsers);
           setTotalPages(data.info.totalPages)
         } catch (error) {
+          setError(true)
           if (error.response.data.message === "El token es invalido") {
             setTokenInvalid(true)
           }
@@ -45,7 +52,7 @@ const UserTable = ({user, setTokenInvalid}) => {
       };
       getUsers();
     }
-  }, [tokenUser, page]);
+  }, [tokenUser, page, searching, error]);
 
   // Funcion para editar
   const handleEditClick = (user) => {
@@ -92,6 +99,7 @@ const UserTable = ({user, setTokenInvalid}) => {
 
   <div className='text-center mt-3 ' >
     <h1 className='display-6'>Tabla de usuarios</h1>
+    <Search setPage={setPage} setSearching={setSearching} setError={setError}/>
   </div>
   <div className={`container ${tableContainer}`}>
     <table className="table table-bordered mt-4">
@@ -106,6 +114,9 @@ const UserTable = ({user, setTokenInvalid}) => {
         </tr>
       </thead>
       <tbody>
+      {error ? (
+            <h1>no hay resultados</h1>
+          ) : <>
         {usersInfo?.map((user, index) => (
             <tr key={index}>
               <th scope="row">{index + 1}</th>
@@ -119,6 +130,8 @@ const UserTable = ({user, setTokenInvalid}) => {
               </td>
             </tr>
           ))}
+          </>
+}
       </tbody>
     </table>
       <Pagination totalPages={totalPages} setPage={setPage}/>
