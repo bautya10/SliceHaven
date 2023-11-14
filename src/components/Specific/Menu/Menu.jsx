@@ -161,7 +161,7 @@ const Food = () => {
   };
 
   return (
-    <div className={`${styles.sectionTitle} px-4 py-12`}>
+    <div className={`${styles.sectionTitle} px-4`}>
       <p className={`${styles.sectionTexto}`}>Famosos por la buena comida</p>
       <h4>menu</h4>
 

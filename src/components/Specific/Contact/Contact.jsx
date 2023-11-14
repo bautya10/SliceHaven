@@ -21,7 +21,7 @@ const Contact = () => {
   return (
     <div className={`${styles.HeightContact} p-2 my-3 d-flex justify-content-center`} id="contacto">
 
-    <form onSubmit={onSubmit} className={`${Cform} col-12 col-md-4 col-lg-4 col-xl-4 row`}>
+    <form onSubmit={onSubmit} className={`${Cform} col-12 col-md-4 col-lg-4 col-xl-4 my-5 row`}>
 
       {/* Titulo */}
       <div className=' mb-4 text-black'>

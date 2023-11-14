@@ -97,7 +97,7 @@ const UserTable = ({user, setTokenInvalid}) => {
 
   return (<>
 
-  <div className='text-center mt-3 ' >
+  <div className='text-center mt-5 pt-5 ' >
     <h1 className='display-6'>Tabla de usuarios</h1>
     <Search setPage={setPage} setSearching={setSearching} setError={setError}/>
   </div>
