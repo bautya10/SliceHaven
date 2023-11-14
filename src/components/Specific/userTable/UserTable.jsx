@@ -4,15 +4,18 @@ import {tableContainer} from "./table.module.css"
 import { useForm } from "react-hook-form"
 import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
 
-
 // eslint-disable-next-line react/prop-types
 const UserTable = ({user, setTokenInvalid}) => {
-  const { register, handleSubmit, formState: { errors }, reset} = useForm(); // React hookForm
-  const [usersInfo, setUsersInfo] = useState([])
+  // React hookForm
+  const { register, handleSubmit, formState: { errors }, reset} = useForm(); 
+  //Usuarios filtrados
+  const [usersInfo, setUsersInfo] = useState([]) 
+  //Usuario seleccionado en la tabla
   const [selectedUser, setSelectedUser] = useState(null);
+  //validaciones modalEdit
   const [checkEmail, setCheckEmail] = useState(null)
   const [saveChanges, setSaveChanges] = useState(false)
-
+  
   const [userReserves, setUserReserves] = useState(false)
 
   // Autorizacion del token
@@ -22,10 +25,9 @@ const UserTable = ({user, setTokenInvalid}) => {
     if (tokenUser) {
       const getUsers = async () => {
         try {
-          const token = tokenUser; // Autorizamos el token
           const config = {
             headers: {
-              'Authorization': `Bearer ${token}`,
+              'Authorization': `Bearer ${tokenUser}`,
             },
           };
           const users = await axios.get('https://slicenhaven-backend.onrender.com/users', config);
@@ -44,17 +46,16 @@ const UserTable = ({user, setTokenInvalid}) => {
 
   // Funcion para editar
   const handleEditClick = (user) => {
+    reset()
     setSelectedUser(user);
   };
-
+  // onSubmit del modalEditar
   const onSubmit = handleSubmit(async (data) => {
     try {
       // Filtramos los campos vacíos
       const filteredData = Object.fromEntries(
         Object.entries(data).filter(([key, value]) => value !== "")
       );
-
-      console.log(filteredData)
   
       await axios.patch(`http://localhost:8000/users/${selectedUser?._id}`, filteredData);
   
@@ -83,51 +84,51 @@ const UserTable = ({user, setTokenInvalid}) => {
     }
   };
 
+
   return (<>
-    <div className='text-center mt-3 ' >
-      <h1 className='display-6'>Tabla de usuarios</h1>
-    </div>
-    <div className={`container ${tableContainer}`}>
-      <table className="table table-bordered mt-4">
-        <thead>
-          <tr>
-            <td scope="col">#</td>
-            <th scope="col">userName</th>
-            <th scope="col">email</th>
-            <th scope="col">admin</th>
-            <th scope="col">suspended</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {usersInfo?.map((user, index) => (
-              <tr key={index}>
-                <th scope="row">{index + 1}</th>
-                <td>{user.userName}</td>
-                <td>{user.email}</td>
-                <td>{user.admin.toString()}</td>
-                <td>{user.suspended.toString()}</td>
-                <td className='text-center'>
-                  <button onClick={() => handleEditClick(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
-                  <button  onClick={() => handleEditClick(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
+  <div className='text-center mt-3 ' >
+    <h1 className='display-6'>Tabla de usuarios</h1>
+  </div>
+  <div className={`container ${tableContainer}`}>
+    <table className="table table-bordered mt-4">
+      <thead>
+        <tr>
+          <td scope="col">#</td>
+          <th scope="col">userName</th>
+          <th scope="col">email</th>
+          <th scope="col">admin</th>
+          <th scope="col">suspended</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {usersInfo?.map((user, index) => (
+            <tr key={index}>
+              <th scope="row">{index + 1}</th>
+              <td>{user.userName}</td>
+              <td>{user.email}</td>
+              <td>{user.admin.toString()}</td>
+              <td>{user.suspended.toString()}</td>
+              <td className='text-center'>
+                <button onClick={() => handleEditClick(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
+                <button  onClick={() => handleEditClick(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  </div>
 
 {/* modal de edicion */}
   <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" >
     <div className="modal-dialog modal-xl">
       <div className="modal-content">
-
         <form onSubmit={onSubmit} noValidate className={`col-12 ${Cform}`}>
           <div className='text-center mb-4 text-black'>
             <h2 className='display-6'>Editar</h2>
           </div>
           <div className='p-2'>
-          <div className="mb-3">   
+            <div className="mb-3">   
                 <input type="text" className={`w-100 ${input} p-2 mb-3`} placeholder={selectedUser?.userName}
                 {...register("userName", {
                   validate:{
@@ -149,9 +150,9 @@ const UserTable = ({user, setTokenInvalid}) => {
                 {
                   errors.userName && <p className='text-danger'>{errors.userName.message}</p>
                 }
-              </div>
+            </div>
 
-              <div className="mb-3">
+            <div className="mb-3">
               {checkEmail && (
                 <p className='text-light bg-danger p-1'>{checkEmail}</p>
               )}
@@ -208,80 +209,60 @@ const UserTable = ({user, setTokenInvalid}) => {
               {errors.admin && <p className='text-danger'>{errors.admin.message}</p>}
             </div>
 
-              <div className="mb-3 w-50">
-                <label className='text-primary' htmlFor="suspended">suspended: {selectedUser?.suspended.toString()}</label>
-                <select className={`w-100 ${input} p-2 mb-3`} {...register("suspended")} >
-                  <option value="">Seleccione un valor</option>
-                  <option value={true}>True</option>
-                  <option value={false}>False</option>
-                </select>
+            <div className="mb-3 w-50">
+              <label className='text-primary' htmlFor="suspended">suspended: {selectedUser?.suspended.toString()}</label>
+              <select className={`w-100 ${input} p-2 mb-3`} {...register("suspended")} >
+                <option value="">Seleccione un valor</option>
+                <option value={true}>True</option>
+                <option value={false}>False</option>
+              </select>
 
-                {errors.suspended && <p className='text-danger'>{errors.suspended.message}</p>}
-              </div>
-
-
-        <div className='text-center mt-3 ' >
-      <h1 className='display-6'>recerbas</h1>
-    </div>
-    <div className={`container ${tableContainer}`}>
-      <table className="table table-bordered mt-4">
-        <thead>
-          <tr>
-            <td scope="col">#</td>
-            <th scope="col">Dia</th>
-            <th scope="col">Hora</th>
-            <th scope="col">Personas</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedUser?.reserves.map((reserve, index) => (
-          <tr key={index}>
-            <th scope="row">{index + 1}</th>
-            <td>{reserve.date}</td>
-            <td>{reserve.hour}</td>
-            <td>{reserve.people}</td>
-            <td className='text-center'>
-              <button onClick={() => console.log(user.reserves)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
-              <button  onClick={() => console.log(user.reserves)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
-            </td>
-          </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-
-
+              {errors.suspended && <p className='text-danger'>{errors.suspended.message}</p>}
             </div>
-            <div className='d-flex justify-content-between'>
-              <button type="submit" className="btn btn-primary">Guardar cambios</button>
-              <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={()=>{
+
+            {/*reservas*/}     
+            <div className='text-center mt-3 ' >
+              <h1 className='display-6'>Reservas</h1>
+            </div>
+            <div className={`container ${tableContainer}`}>
+              <table className="table table-bordered mt-4">
+                <thead>
+                  <tr>
+                    <td scope="col">#</td>
+                    <th scope="col">Dia</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Personas</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedUser?.reserves.map((reserve, index) => (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{reserve.date}</td>
+                    <td>{reserve.hour}</td>
+                    <td>{reserve.people}</td>
+                    <td className='text-center'>
+                      <button onClick={() => console.log(user.reserves)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
+                      <button  onClick={() => console.log(user.reserves)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
+                    </td>
+                  </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+            <div className='d-flex justify-content-center'>
+              <button type="submit" className="btn btn-success mx-5">Guardar</button>
+              <button type="button" className="btn btn-danger mx-5" data-bs-dismiss="modal" onClick={()=>{
                 setSaveChanges(false);
               }}>Cerrar</button>
             </div>
 
            {saveChanges && (
-                <p className='text-success p-1'>Cambios guardados</p>
+                <div className='d-flex justify-content-center mt-3 text-center'><p className='text-light w-50 bg-success p-2'>Guardado</p></div>
               )}
         </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </div>
     </div>
   </div>
