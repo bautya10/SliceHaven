@@ -101,7 +101,7 @@ const ReserveTable = () => {
               <Reserves editar={editarReserva} idUser={idUser} idReserva={idReserva}/>
             </div>
             <div className="modal-footer">
-              <button type="button" onClick={()=> setActualizar(actualizar + 1)} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" onClick={()=> setActualizar(actualizar + 1)} className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>
