@@ -5,7 +5,7 @@ import image3 from '../../../assets/imagegallery/image3.jpg';
 
 const GalleryImage = () => {
   return (
-    <div className={`${styles.HeightGalery} container-fluid mt-4 align-items-center d-flex`}>
+    <div className={`${styles.HeightGalery} container-fluid mt-4 align-items-center d-flex pt-5`}>
       <div className='row'>
         <div className='col-12 col-md-6 col-lg-4 col-xl-4 my-2'>
           <img src={image1} className={styles.ImageGallery} alt="foto de nuestros paltos gourmet" />

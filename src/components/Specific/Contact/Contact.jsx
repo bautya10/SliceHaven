@@ -19,7 +19,7 @@ const Contact = () => {
   });
 
   return (
-    <div className={`${styles.HeightContact} p-2 my-3 d-flex justify-content-center`}>
+    <div className={`${styles.HeightContact} p-2 my-3 d-flex justify-content-center`} id="contacto">
 
     <form onSubmit={onSubmit} className={`${Cform} col-12 col-md-4 col-lg-4 col-xl-4 row`}>
 
@@ -73,7 +73,7 @@ const Contact = () => {
 
       {/* Text Area */}
       <div>
-      <label for="Textarea" className="form-label">Comentario</label>
+      <label htmlFor="Textarea" className="form-label">Comentario</label>
       <textarea className="form-control" rows="3" maxLength="160" minLength="4"
       {...register("comentario",{
         required: true

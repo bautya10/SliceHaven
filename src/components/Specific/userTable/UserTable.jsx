@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {tableContainer} from "./table.module.css"
 import { useForm } from "react-hook-form"
 import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
+import Pagination from '../pagination/Pagination'
 
 // eslint-disable-next-line react/prop-types
 const UserTable = ({user, setTokenInvalid}) => {
@@ -15,8 +16,9 @@ const UserTable = ({user, setTokenInvalid}) => {
   //validaciones modalEdit
   const [checkEmail, setCheckEmail] = useState(null)
   const [saveChanges, setSaveChanges] = useState(false)
-  
-  const [userReserves, setUserReserves] = useState(false)
+  //Paginacion
+  const [totalPages, setTotalPages] = useState("");
+  const [page, setPage] = useState("");
 
   // Autorizacion del token
   const tokenUser = user?.loguedUser.token
@@ -30,10 +32,10 @@ const UserTable = ({user, setTokenInvalid}) => {
               'Authorization': `Bearer ${tokenUser}`,
             },
           };
-          const users = await axios.get('https://slicenhaven-backend.onrender.com/users', config);
-          // Filtramos la lista de usuarios para excluir al usuario actual
-          const filteredUsers = users?.data.users.filter(u => u._id !== id);
+          const {data} = await axios.get(`https://slicenhaven-backend.onrender.com/users?${page}`, config);
+          const filteredUsers = data?.info.users;
           setUsersInfo(filteredUsers);
+          setTotalPages(data.info.totalPages)
         } catch (error) {
           if (error.response.data.message === "El token es invalido") {
             setTokenInvalid(true)
@@ -42,7 +44,7 @@ const UserTable = ({user, setTokenInvalid}) => {
       };
       getUsers();
     }
-  }, [tokenUser]);
+  }, [tokenUser, page]);
 
   // Funcion para editar
   const handleEditClick = (user) => {
@@ -57,7 +59,7 @@ const UserTable = ({user, setTokenInvalid}) => {
         Object.entries(data).filter(([key, value]) => value !== "")
       );
   
-      await axios.patch(`http://localhost:8000/users/${selectedUser?._id}`, filteredData);
+      await axios.patch(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`, filteredData);
   
       setUsersInfo(prevUsers => {
         const updatedUsers = prevUsers.map(u => (u._id === selectedUser._id ? { ...u, ...filteredData } : u));
@@ -76,7 +78,7 @@ const UserTable = ({user, setTokenInvalid}) => {
   // Funcion para eliminar un usuario
   const deleteUser = async () => {
     try {
-      await axios.delete(`http://localhost:8000/users/${selectedUser?._id}`);
+      await axios.delete(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`);
       // Actualizar el estado local eliminando el usuario de la lista
       setUsersInfo(prevUsers => prevUsers.filter(u => u._id !== selectedUser._id));
     } catch (error) {
@@ -117,10 +119,11 @@ const UserTable = ({user, setTokenInvalid}) => {
           ))}
       </tbody>
     </table>
+      <Pagination totalPages={totalPages} setPage={setPage}/>
   </div>
 
 {/* modal de edicion */}
-  <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" >
+  <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" >
     <div className="modal-dialog modal-xl">
       <div className="modal-content">
         <form onSubmit={onSubmit} noValidate className={`col-12 ${Cform}`}>
@@ -218,38 +221,6 @@ const UserTable = ({user, setTokenInvalid}) => {
               </select>
 
               {errors.suspended && <p className='text-danger'>{errors.suspended.message}</p>}
-            </div>
-
-            {/*reservas*/}     
-            <div className='text-center mt-3 ' >
-              <h1 className='display-6'>Reservas</h1>
-            </div>
-            <div className={`container ${tableContainer}`}>
-              <table className="table table-bordered mt-4">
-                <thead>
-                  <tr>
-                    <td scope="col">#</td>
-                    <th scope="col">Dia</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Personas</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedUser?.reserves.map((reserve, index) => (
-                  <tr key={index}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{reserve.date}</td>
-                    <td>{reserve.hour}</td>
-                    <td>{reserve.people}</td>
-                    <td className='text-center'>
-                      <button onClick={() => console.log(user.reserves)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
-                      <button  onClick={() => console.log(user.reserves)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
-                    </td>
-                  </tr>
-                    ))}
-                </tbody>
-              </table>
             </div>
           </div>
             <div className='d-flex justify-content-center'>
