@@ -5,7 +5,7 @@ import Reservas from '../Reservas/Reservas';
 import Descrip from '../../components/Specific/Presentacion/presentacion';
 
 
-const Home = ({user}) => {
+const Home = () => {
   return (
     <div>
       <Descrip/>
