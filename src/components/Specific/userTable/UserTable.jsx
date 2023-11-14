@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {tableContainer} from "./table.module.css"
 import { useForm } from "react-hook-form"
 import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
+import ReserveTable from '../ReserveTable/ReserveTable'
 
 
 // eslint-disable-next-line react/prop-types
@@ -116,9 +117,11 @@ const UserTable = ({user, setTokenInvalid}) => {
         </tbody>
       </table>
     </div>
-
+    <div className="container">
+      <ReserveTable/>
+    </div>
 {/* modal de edicion */}
-  <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" >
+  <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" >
     <div className="modal-dialog modal-xl">
       <div className="modal-content">
 
@@ -218,40 +221,6 @@ const UserTable = ({user, setTokenInvalid}) => {
 
                 {errors.suspended && <p className='text-danger'>{errors.suspended.message}</p>}
               </div>
-
-
-        <div className='text-center mt-3 ' >
-      <h1 className='display-6'>recerbas</h1>
-    </div>
-    <div className={`container ${tableContainer}`}>
-      <table className="table table-bordered mt-4">
-        <thead>
-          <tr>
-            <td scope="col">#</td>
-            <th scope="col">Dia</th>
-            <th scope="col">Hora</th>
-            <th scope="col">Personas</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedUser?.reserves.map((reserve, index) => (
-          <tr key={index}>
-            <th scope="row">{index + 1}</th>
-            <td>{reserve.date}</td>
-            <td>{reserve.hour}</td>
-            <td>{reserve.people}</td>
-            <td className='text-center'>
-              <button onClick={() => console.log(user.reserves)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
-              <button  onClick={() => console.log(user.reserves)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
-            </td>
-          </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-
-
             </div>
             <div className='d-flex justify-content-between'>
               <button type="submit" className="btn btn-primary">Guardar cambios</button>
@@ -264,7 +233,6 @@ const UserTable = ({user, setTokenInvalid}) => {
                 <p className='text-success p-1'>Cambios guardados</p>
               )}
         </form>
-
 
 
 
