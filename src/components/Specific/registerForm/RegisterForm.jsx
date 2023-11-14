@@ -14,7 +14,7 @@ const RegisterForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axios.post("http://localhost:8000/users/register", data);
+      await axios.post("https://slicenhaven-backend.onrender.com/users/register", data);
       navigate("/login")
     } catch (error) {
       setCheckEmail(error.response.data);
@@ -22,7 +22,7 @@ const RegisterForm = () => {
   });
   
   return (
-      <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4  ${Cform}`}>
+      <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4 mt-5 ${Cform}`}>
         <div className='text-center mb-4 text-black'>
           <h2 className='display-6'>Registrarse</h2>
         </div>
