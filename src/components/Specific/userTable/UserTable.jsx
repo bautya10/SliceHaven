@@ -4,6 +4,7 @@ import {tableContainer} from "./table.module.css"
 import { useForm } from "react-hook-form"
 import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
 import Pagination from '../pagination/Pagination'
+import ReserveTable from '../ReserveTable/ReserveTable'
 
 // eslint-disable-next-line react/prop-types
 const UserTable = ({user, setTokenInvalid}) => {
@@ -88,40 +89,42 @@ const UserTable = ({user, setTokenInvalid}) => {
 
 
   return (<>
-  <div className='text-center mt-3 ' >
-    <h1 className='display-6'>Tabla de usuarios</h1>
+    <div className='text-center mt-3 ' >
+      <h1 className='display-6'>Tabla de usuarios</h1>
+    </div>
+    <div className={`container ${tableContainer}`}>
+      <table className="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <td scope="col">#</td>
+            <th scope="col">userName</th>
+            <th scope="col">email</th>
+            <th scope="col">admin</th>
+            <th scope="col">suspended</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {usersInfo?.map((user, index) => (
+              <tr key={index}>
+                <th scope="row">{index + 1}</th>
+                <td>{user.userName}</td>
+                <td>{user.email}</td>
+                <td>{user.admin.toString()}</td>
+                <td>{user.suspended.toString()}</td>
+                <td className='text-center'>
+                  <button onClick={() => handleEditClick(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
+                  <button  onClick={() => handleEditClick(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+        <Pagination totalPages={totalPages} setPage={setPage}/>
   </div>
-  <div className={`container ${tableContainer}`}>
-    <table className="table table-bordered mt-4">
-      <thead>
-        <tr>
-          <td scope="col">#</td>
-          <th scope="col">userName</th>
-          <th scope="col">email</th>
-          <th scope="col">admin</th>
-          <th scope="col">suspended</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        {usersInfo?.map((user, index) => (
-            <tr key={index}>
-              <th scope="row">{index + 1}</th>
-              <td>{user.userName}</td>
-              <td>{user.email}</td>
-              <td>{user.admin.toString()}</td>
-              <td>{user.suspended.toString()}</td>
-              <td className='text-center'>
-                <button onClick={() => handleEditClick(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
-                <button  onClick={() => handleEditClick(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-      <Pagination totalPages={totalPages} setPage={setPage}/>
-  </div>
-
+    <div className="container">
+      <ReserveTable/>
+    </div>
 {/* modal de edicion */}
   <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" >
     <div className="modal-dialog modal-xl">
