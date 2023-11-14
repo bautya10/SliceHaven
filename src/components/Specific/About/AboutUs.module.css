@@ -143,3 +143,9 @@
     opacity: 1;
   }
 }
+
+@media screen and (max-width: 390px) {
+  .aboutUs {
+    margin-bottom: 1200px
+  }
+}
