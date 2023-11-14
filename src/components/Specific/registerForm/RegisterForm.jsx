@@ -14,7 +14,7 @@ const RegisterForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axios.post("http://localhost:8000/users/register", data);
+      await axios.post("https://slicenhaven-backend.onrender.com/users/register", data);
       navigate("/login")
     } catch (error) {
       setCheckEmail(error.response.data);

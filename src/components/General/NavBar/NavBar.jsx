@@ -2,14 +2,16 @@ import logo from "../../../assets/logo/logo.png"
 import { Link } from 'react-router-dom';
 import { customLink, customNavbar, imgLogo } from './navbar.module.css';
 import LogOut from "../../Specific/logOut/logOut";
-
+import { useLocation } from 'react-router-dom';
 const NavBar = ({user}) => {
-
   const admin = user?.loguedUser.userFounded.admin
+
+  const location = useLocation();
+  const isOnHomePage = location.pathname === '/';
 
   return (
     <div>
-      <nav className={`navbar navbar-expand-lg ${customNavbar}`}>
+      <nav className={`navbar navbar-expand-lg ${customNavbar} w-100 fixed-top `}>
         <div className="container-fluid">
           <div>
             <Link to="/" className="navbar-brand pe-3"><img src={logo} className={imgLogo} alt=""/></Link>
@@ -23,7 +25,8 @@ const NavBar = ({user}) => {
               <li className="nav-item pb-1 pe-3">
                 <Link to="/" className={`${customLink}`} aria-current="page">Inicio</Link>
               </li>
-             
+             {isOnHomePage ?
+            <>
               <li className="nav-item pb-1 pe-3">
                 <a className={`${customLink}`} href="/#reservas">Reservas</a>
               </li>
@@ -33,6 +36,20 @@ const NavBar = ({user}) => {
               <li className="nav-item pb-1 pe-3">
                 <a className={`${customLink}`} href="/#aboutUs">Quienes somos</a>
               </li>
+            </> : 
+            <>
+            <li className="nav-item pb-1 pe-3">
+              <Link className={`${customLink}`} to="/">Reservas</Link>
+            </li>
+            <li className="nav-item pb-1 pe-3">
+              <Link className={`${customLink}`} to="/">Contacto</Link>
+            </li>
+            <li className="nav-item pb-1 pe-3">
+              <Link className={`${customLink}`} to="/">Quienes somos</Link>
+            </li>
+          </> 
+            }
+
               <li className="nav-item pb-1 pe-3">
                 <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
               </li>
