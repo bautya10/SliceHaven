@@ -193,6 +193,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
     } else {
       //introducimos una alerta avisando que tienen que iniciar sesion
       setAlerta(<Alert
+      
         texto={'Debes iniciar sesion para tomar una reserva'}
         color={'danger'}
         icon={'bi bi-exclamation-triangle-fill'}
