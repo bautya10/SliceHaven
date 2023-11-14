@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
@@ -8,7 +8,7 @@ import axios from 'axios'
 const RegisterForm = () => {
   const navigate = useNavigate()
 
-  const [checkEmail, setCheckEmail] = useState(false)
+  const [checkEmail, setCheckEmail] = useState(null)
 
   const {register, handleSubmit, formState:{ errors }, watch} = useForm(); 
 
@@ -17,10 +17,7 @@ const RegisterForm = () => {
       await axios.post("http://localhost:8000/users/register", data);
       navigate("/login")
     } catch (error) {
-      console.log(error.response.data);
-      if (error.response.data === "exist") {
-        setCheckEmail(true);
-      }
+      setCheckEmail(error.response.data);
     }
   });
   
@@ -37,14 +34,14 @@ const RegisterForm = () => {
                   value: true,
                   message: "Ingrese un nombre de usuario"
                 },
-                 minLength:{
+                minLength:{
                   value: 2,
                   message: "El nombre de usuario debe contener al menos 2 caracteres"
-                 }, maxLength:{
+                }, maxLength:{
                   value: 40,
                   message: "El nombre de usuario debe contener no mas de 40 caracteres"
-                 },
-                 pattern: {
+                },
+                pattern: {
                   value: /^[a-zA-Z ]+$/,
                   message: "Ingrese solo letras, sin numeros ni caracteres especiales"
                 }
@@ -57,7 +54,7 @@ const RegisterForm = () => {
 
             <div className="mb-3">
             {checkEmail && (
-                <p className='text-light bg-danger p-1'>El correo electrónico ya está en uso. Por favor, use otro correo electrónico.</p>
+                <p className='text-light bg-danger p-1'>{checkEmail}</p>
               )}
               <input type="email" className={`w-100 ${input} p-2 mb-3`} placeholder='Email'
               {...register("email", {
@@ -79,7 +76,7 @@ const RegisterForm = () => {
 
             <div className="mb-3">
               <input type="password" className={`w-100 ${input} p-2 mb-3`} placeholder='Contraseña'
-               {...register("password", {
+                {...register("password", {
                 required: {
                   value: true,
                   message: "Ingrese una contraseña"
@@ -101,8 +98,8 @@ const RegisterForm = () => {
 
             <div className="mb-3">
               <input type="password" className={`w-100 ${input} p-2 mb-3`} placeholder='Repetir contraseña'
-                 {...register("repeatPassword", {
-                  required: {
+                  {...register("repeatPassword", {
+                    required: {
                     value: true,
                     message: "Repita su contraseña"
                   },
@@ -116,7 +113,7 @@ const RegisterForm = () => {
                 
                 })}
               />
-                   {
+                  {
                 errors.repeatPassword && <p className='text-danger'>{errors.repeatPassword.message}</p>
               }
             </div>

@@ -1,14 +1,16 @@
 import GalleryImage from '../../components/Specific/GalleryImage/GalleryImage';
 import About from '../AboutUs/About';
 import Contact from '../../components/Specific/Contact/Contact';
-import Reserves from '../../components/Specific/Reserves/Reserves';
+import Reservas from '../Reservas/Reservas';
+import Descrip from '../../components/Specific/Presentacion/presentacion';
 
 
-const Home = () => {
+const Home = ({user}) => {
   return (
-    <div>Home
-      <Reserves/>
+    <div>
+      <Descrip/>
       <GalleryImage/>
+      <Reservas />
       <Contact/>
       <About/>
     </div>

@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Oleo+Script&display=swap');
+
+.customNavbar {
+  background-color: rgb(240, 240, 240);
+  padding: 10px;
+}
+
+.boton{
+  background-color:  #ff5d1889;
+  font-weight: bold;
+}
+
+.boton:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.259);
+  background-color: #ff5d18be;
+
+}
+
+.boton:focus {
+  background-color: #ff5d18ab;
+}
+
+
+.sectionTitle h4 {
+	font-size: 40px;
+	text-transform: capitalize;
+	color: #FF5E18;
+	position: relative;
+	display: flex;
+  justify-content: center;
+	padding-bottom: 25px;
+}
+
+.sectionTexto {
+	font-size: 24px;
+  font-family: 'Oleo Script', cursive;
+	margin-bottom: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.sectionTitle h4:before,
+.sectionTitle h4:after {
+	position: absolute;
+	content: "";
+	background-color: #FF5E18;
+  margin-bottom: 20px;
+}
+
+.sectionTitle h4:before {
+	width: 80px;
+	height: 1.5px;
+	bottom: 0;
+	left: 50%;
+	margin-left: -40px;
+}
+
+.sectionTitle h4:after {
+	width: 40px;
+	height: 1.5px;
+	bottom: -5px;
+	left: 50%;
+	margin-left: -20px;
+}
+
+.menu_content h3{
+  font-size: 25px;
+  font-weight: 800;
+  font-family: Edu TAS Beginner;
+  border-bottom: 1px dashed #c0392b;
+  line-height: 2;
+  margin-left: 10px;
+  font-style: oblique;
+  color: #c0392b;
+}
+
+.menu_content p{
+  letter-spacing: 1px;
+  font-weight: 350;
+  line-height: 1.5;
+  color: #552a2a;
+  padding: 10px; 
+  margin-bottom: 10px;
+}
+
+@media screen and (min-width: 1024px){
+  .menu_content {
+    width: 400px;
+    height: 150px;
+  }
+}

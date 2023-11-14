@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import LoginForm from '../../components/Specific/loginForm/LoginForm'
 
 const Login = ({setUser}) => {
