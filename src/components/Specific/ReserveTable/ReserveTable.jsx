@@ -72,6 +72,7 @@ const ReserveTable = () => {
       {alerta}
 
       <div className="row">
+        
         {reservas?.map(element => (
           <div className="col-12 col-md-3 mb-3" key={element._id}>
             <div className="card">
