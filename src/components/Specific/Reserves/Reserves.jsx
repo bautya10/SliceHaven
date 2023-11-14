@@ -7,7 +7,8 @@ import axios from 'axios';
 import Alert from "../Alert/Alert"
 registerLocale('es', es);
 
-const Reserves = ({editar,idUser,idReserva}) => {
+const Reserves = () => {
+
   // funcion para borrar las alertas
   const borrarAlerta = () => {
     setTimeout(() => {
@@ -110,7 +111,6 @@ const Reserves = ({editar,idUser,idReserva}) => {
 
   // esta funcion siver para guardar la reserva
   const guardar = async () => {
-    
     //consulta si de crearReserva existe usuario, si no existe pide logear y si sí hace la peticion
     if (crearReserva.user) {
       try {
@@ -164,17 +164,6 @@ const Reserves = ({editar,idUser,idReserva}) => {
               icon={'bi bi-exclamation-triangle-fill'}
             />)
           borrarAlerta()
-        }else if(editar){
-          crearReserva.user = idUser
-          // console.log(crearReserva)
-          await axios.patch(`https://slicenhaven-backend.onrender.com/reserves/${idReserva}`, crearReserva);
-          setAlerta(
-            <Alert
-              texto={'Recerva actualizada correctamente'}
-              color={'success'}
-              icon={'bi bi-check-circle-fill'}
-            />)
-          borrarAlerta();
         }
         else {
           //caso contrario, realizo la peticion
@@ -270,7 +259,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
 
 
       />
-      <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>{editar? 'Editar Reseva':'Hacer Reserva'}</button>
+      <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>Hacer Reserva</button>
       <div>{alerta}</div>
     </>
   )
