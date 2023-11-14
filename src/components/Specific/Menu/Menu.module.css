@@ -2,6 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&family=Oleo+Script&display=swap');
 
+
 .customNavbar {
   background-color: rgb(240, 240, 240);
   padding: 10px;
@@ -31,6 +32,7 @@
 	display: flex;
   justify-content: center;
 	padding-bottom: 25px;
+  margin-top: 10px;
 }
 
 .sectionTexto {
@@ -39,6 +41,7 @@
 	margin-bottom: 0px;
   display: flex;
   justify-content: center;
+  margin-top: 90px;
 }
 
 .sectionTitle h4:before,

@@ -3,10 +3,8 @@
   justify-content: space-around;
   margin: 20px;
   height: 500px;
+  margin-bottom: 400px;
 }
-
-
-
 
 .title{
   background-image: linear-gradient(
@@ -93,6 +91,10 @@
 
 @media screen and (min-width: 1024px) {
 
+  .aboutUs {
+    margin-bottom: 20px;
+  }
+
   .memberCard {
     width: 250px;
     height: 210px;
@@ -139,5 +141,11 @@
   }
   .memberCard:hover .socialIcons{
     opacity: 1;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .aboutUs {
+    margin-bottom: 1200px
   }
 }

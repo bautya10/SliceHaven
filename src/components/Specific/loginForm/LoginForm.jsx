@@ -25,7 +25,7 @@ const LoginForm = ({setUser}) => {
     }
   });
   return (
-    <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4 ${Cform}`}>
+    <form noValidate onSubmit={onSubmit} className={`col-12 col-md-4 col-lg-4 col-xl-4 mt-5 ${Cform}`}>
       <div className='text-center mb-4 text-black'>
         <h2 className='display-6'>Iniciar Sesión</h2>
       </div>
@@ -62,7 +62,7 @@ const LoginForm = ({setUser}) => {
         </div>
 
         <div className='d-flex justify-content-end pt-3'>
-          <button type="submit" className={`mb-3 ${buttonCustom}`}>Iniciar Sesión</button>
+          <button type="submit" className={`btn mb-3 ${buttonCustom}`}>Iniciar Sesión</button>
         </div>
 
         <div className='text-center pt-2'>
