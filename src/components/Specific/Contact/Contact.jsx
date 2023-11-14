@@ -1,6 +1,6 @@
 import styles from '../Contact/formContact.module.css' ;
 import {Cform, input, buttonCustom} from '../../Specific/registerForm/registerForm.module.css';
-import {useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form';
 
 const Contact = () => {
   
