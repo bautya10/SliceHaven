@@ -9,23 +9,14 @@ import Search from '../search/Search'
 
 // eslint-disable-next-line react/prop-types
 const UserTable = ({user, setTokenInvalid}) => {
-  // React hookForm
   const { register, handleSubmit, formState: { errors }, reset} = useForm(); 
-  //Usuarios filtrados
-  const [usersInfo, setUsersInfo] = useState([]) 
-  //Usuario seleccionado en la tabla
+  const [usersInfo, setUsersInfo] = useState([]); 
   const [selectedUser, setSelectedUser] = useState(null);
-  //validaciones modalEdit
-  const [checkEmail, setCheckEmail] = useState(null)
-  const [saveChanges, setSaveChanges] = useState(false)
-  //Paginacion
+  const [checkEmail, setCheckEmail] = useState(null);
   const [totalPages, setTotalPages] = useState("");
   const [page, setPage] = useState("");
-  //search
   const [searching, setSearching] = useState("");
   const [error, setError] = useState(false);
-
-  console.log(searching)
 
   // Autorizacion del token
   const tokenUser = user?.loguedUser.token
@@ -40,7 +31,8 @@ const UserTable = ({user, setTokenInvalid}) => {
             },
           };
           const {data} = await axios.get(`https://slicenhaven-backend.onrender.com/users?${page}${searching}`, config);
-          const filteredUsers = data?.info.users;
+
+          const filteredUsers = data?.info.users.filter(user => user._id !== id);;
           setUsersInfo(filteredUsers);
           setTotalPages(data.info.totalPages)
         } catch (error) {
@@ -55,27 +47,24 @@ const UserTable = ({user, setTokenInvalid}) => {
   }, [tokenUser, page, searching, error]);
 
   // Funcion para editar
-  const handleEditClick = (user) => {
-    reset()
+  const selectUser = (user) => {
     setSelectedUser(user);
+    reset();
   };
+
   // onSubmit del modalEditar
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // Filtramos los campos vacíos
       const filteredData = Object.fromEntries(
         Object.entries(data).filter(([key, value]) => value !== "")
       );
-  
       await axios.patch(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`, filteredData);
-  
       setUsersInfo(prevUsers => {
         const updatedUsers = prevUsers.map(u => (u._id === selectedUser._id ? { ...u, ...filteredData } : u));
         return updatedUsers;
       });
       setCheckEmail("")
-      setSaveChanges(true)
-      reset();
+      document.getElementById("btnCerrar").click()
     } catch (error) {
       console.log(error)
       setCheckEmail(error.response.data);
@@ -87,7 +76,6 @@ const UserTable = ({user, setTokenInvalid}) => {
   const deleteUser = async () => {
     try {
       await axios.delete(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`);
-      // Actualizar el estado local eliminando el usuario de la lista
       setUsersInfo(prevUsers => prevUsers.filter(u => u._id !== selectedUser._id));
     } catch (error) {
       console.log(error);
@@ -96,7 +84,7 @@ const UserTable = ({user, setTokenInvalid}) => {
 
 
   return (<>
-
+  {/* Tabla de usuarios */}
   <div className='text-center mt-5 pt-5 ' >
     <h1 className='display-6'>Tabla de usuarios</h1>
     <Search setPage={setPage} setSearching={setSearching} setError={setError}/>
@@ -125,8 +113,8 @@ const UserTable = ({user, setTokenInvalid}) => {
               <td>{user.admin.toString()}</td>
               <td>{user.suspended.toString()}</td>
               <td className='text-center'>
-                <button onClick={() => handleEditClick(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
-                <button  onClick={() => handleEditClick(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
+                <button onClick={() => selectUser(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
+                <button  onClick={() => selectUser(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
               </td>
             </tr>
           ))}
@@ -142,7 +130,7 @@ const UserTable = ({user, setTokenInvalid}) => {
 
 {/* modal de edicion */}
   <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" >
-    <div className="modal-dialog modal-xl">
+    <div className="modal-dialog ">
       <div className="modal-content">
         <form onSubmit={onSubmit} noValidate className={`col-12 ${Cform}`}>
           <div className='text-center mb-4 text-black'>
@@ -243,14 +231,9 @@ const UserTable = ({user, setTokenInvalid}) => {
           </div>
             <div className='d-flex justify-content-center'>
               <button type="submit" className="btn btn-success mx-5">Guardar</button>
-              <button type="button" className="btn btn-danger mx-5" data-bs-dismiss="modal" onClick={()=>{
-                setSaveChanges(false);
+              <button type="button" className="btn btn-danger mx-5" data-bs-dismiss="modal" id="btnCerrar" onClick={()=>{
               }}>Cerrar</button>
             </div>
-
-           {saveChanges && (
-                <div className='d-flex justify-content-center mt-3 text-center'><p className='text-light w-50 bg-success p-2'>Guardado</p></div>
-              )}
         </form>
       </div>
     </div>

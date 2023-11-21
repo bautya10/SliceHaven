@@ -14,7 +14,7 @@ const Search = ({ setPage, setSearching, setError}) => {
       <input
     className="form-control w-50"
     type="text"
-    placeholder="Buscar..."
+    placeholder="Buscar por nombre de usuario..."
     onChange={searcher}
       />
   </div>
