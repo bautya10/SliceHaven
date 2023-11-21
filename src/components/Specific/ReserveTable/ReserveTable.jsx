@@ -77,7 +77,7 @@ const ReserveTable = () => {
           <div className="col-12 col-md-3 mb-3" key={element._id}>
             <div className="card">
               <div className="card-body text-center">
-                <h5 className="card-title">Usuario: {element.user.userName} </h5>
+                <h5 className="card-title">Usuario: {element.user?.userName} </h5>
                 <h5 className="card-title">Fecha: {`${new Date(element.date).getDate()}-${new Date(element.date).getMonth()}-${new Date(element.date).getFullYear()} a ${new Date(element.date).getHours()}:${new Date(element.date).getMinutes()}${new Date(element.date).getMinutes()} hs.`}</h5>
                 <h5 className="card-text">Personas: {element.people}</h5>
                 <div className="d-flex justify-content-around mt-3">
