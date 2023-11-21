@@ -37,6 +37,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
   let Y = startDate.getFullYear();
 
   const [actualizar, setActualizar] = useState(false)
+
   //estado para excluir las fechas, por defecto es un array
   const [excluirReservas, setExcluirReservas] = useState([]);
 
@@ -64,7 +65,6 @@ const Reserves = ({editar,idUser,idReserva}) => {
   useEffect(() => {
     // Agrego los datos actuales por cada cambio que haya en la fecha selecionada
     setCrearReserva({
-      // Obtengo el valor anterior a este estado (el id del usuario) y actualizo con los cambios
       ...crearReserva,
       date: startDate,
       day: startDate.getDate(),
@@ -76,15 +76,12 @@ const Reserves = ({editar,idUser,idReserva}) => {
     //peticion para obtener las reservas ocuapdas del dia seleccionado 
     const obtenerReservasExcluidas = async () => {
       try {
-        // Paso día, mes y año como parámetro
         const result = await axios.get(`https://slicenhaven-backend.onrender.com/reserves/reserveDate/${D}-${M}-${Y}`)
-        // Almacena el resultado en el estado excluir reservas
         setExcluirReservas(result.data.result)
       } catch (error) {
         console.log(error)
       }
     }
-    //ejecuto la funcion
     obtenerReservasExcluidas();
     setActualizar(false)
   }, [startDate, actualizar, personas])
@@ -110,27 +107,24 @@ const Reserves = ({editar,idUser,idReserva}) => {
 
   // esta funcion siver para guardar la reserva
   const guardar = async () => {
-    
     //consulta si de crearReserva existe usuario, si no existe pide logear y si sí hace la peticion
     if (crearReserva.user) {
       try {
-        // Boolean para saber si esta ocuapada la reserva
+
         let reservaOcupada = false;
-        //preguinto si la longitud es mayor a 0
+        
         if (excluirReservas.length > 0) {
           //recorro el array y comparo las horas
           excluirReservas.forEach(element => {
             const fecha = new Date(element)
             if (fecha.getHours() == startDate.getHours()) {
-              // cambio de estado a verdedo
               reservaOcupada = true
             }
           });
         }
-
-        // prefunto, si reserva ocuada es verdador
+        // pregunto, si reserva ocupada es verdador
         if (reservaOcupada) {
-          //muestro una alerta
+
           setAlerta(
             <Alert
               texto={'Reserva ya ocupada'}
@@ -139,15 +133,8 @@ const Reserves = ({editar,idUser,idReserva}) => {
             />)
           borrarAlerta();
 
-        } else if (crearReserva.people === '0') {
-          setAlerta(
-            <Alert
-              texto={'Seleccionar cantidad de personas'}
-              color={'warning'}
-              icon={'bi bi-exclamation-triangle-fill'}
-            />)
-          borrarAlerta();
-        } else if (startDate.getHours() != setHours(setMinutes(new Date(), 0), 11).getHours() &&
+        } else if (
+          startDate.getHours() != setHours(setMinutes(new Date(), 0), 11).getHours() &&
           startDate.getHours() != setHours(setMinutes(new Date(), 0), 12).getHours() &&
           startDate.getHours() != setHours(setMinutes(new Date(), 0), 13).getHours() &&
           startDate.getHours() != setHours(setMinutes(new Date(), 0), 14).getHours() &&
@@ -164,13 +151,21 @@ const Reserves = ({editar,idUser,idReserva}) => {
               icon={'bi bi-exclamation-triangle-fill'}
             />)
           borrarAlerta()
+        } else if (crearReserva.people === '0') {
+          setAlerta(
+            <Alert
+              texto={'Seleccionar cantidad de personas'}
+              color={'warning'}
+              icon={'bi bi-exclamation-triangle-fill'}
+            />)
+          borrarAlerta();
         }else if(editar){
           crearReserva.user = idUser
           // console.log(crearReserva)
           await axios.patch(`https://slicenhaven-backend.onrender.com/reserves/${idReserva}`, crearReserva);
           setAlerta(
             <Alert
-              texto={'Recerva actualizada correctamente'}
+              texto={'Reserva actualizada correctamente'}
               color={'success'}
               icon={'bi bi-check-circle-fill'}
             />)
@@ -181,7 +176,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
           await axios.post('https://slicenhaven-backend.onrender.com/reserves/reservesCreate', crearReserva);
           setAlerta(
             <Alert
-              texto={'Recerva tomada correctamente'}
+              texto={'Reserva tomada correctamente'}
               color={'success'}
               icon={'bi bi-check-circle-fill'}
             />)
