@@ -6,7 +6,6 @@ import LogOut from "../../Specific/logOut/logOut";
 import { useLocation } from 'react-router-dom';
 const NavBar = ({user}) => {
   const admin = user?.loguedUser.userFounded.admin
-
   const location = useLocation();
   const isOnHomePage = location.pathname === '/';
 
@@ -26,43 +25,45 @@ const NavBar = ({user}) => {
               <li className="nav-item pb-1 pe-3">
                 <Link to="/" className={`${customLink}`} aria-current="page">Inicio</Link>
               </li>
-            {isOnHomePage ?
-            <>
-              <li className="nav-item pb-1 pe-3">
-                <a className={`${customLink}`} href="/#reservas">Reservas</a>
-              </li>
-              <li className="nav-item pb-1 pe-3">
-                <a className={`${customLink}`} href="/#contacto">Contacto</a>
-              </li>
-              <li className="nav-item pb-1 pe-3">
-                <a className={`${customLink}`} href="/#aboutUs">Quienes somos</a>
-              </li>
-            </> : 
-            <>
-            <li className="nav-item pb-1 pe-3">
-              <Link className={`${customLink}`} to="/">Reservas</Link>
-            </li>
-            <li className="nav-item pb-1 pe-3">
-              <Link className={`${customLink}`} to="/">Contacto</Link>
-            </li>
-            <li className="nav-item pb-1 pe-3">
-              <Link className={`${customLink}`} to="/">Quienes somos</Link>
-            </li>
-          </> 
+              {isOnHomePage ?
+              <>
+                <li className="nav-item pb-1 pe-3">
+                  <a className={`${customLink}`} href="/#reservas">Reservas</a>
+                </li>
+                <li className="nav-item pb-1 pe-3">
+                  <a className={`${customLink}`} href="/#contacto">Contacto</a>
+                </li>
+                <li className="nav-item pb-1 pe-3">
+                  <a className={`${customLink}`} href="/#aboutUs">Quienes somos</a>
+                </li>
+              </> : 
+              <>
+                <li className="nav-item pb-1 pe-3">
+                  <Link className={`${customLink}`} to="/">Reservas</Link>
+                </li>
+                <li className="nav-item pb-1 pe-3">
+                  <Link className={`${customLink}`} to="/">Contacto</Link>
+                </li>
+                <li className="nav-item pb-1 pe-3">
+                  <Link className={`${customLink}`} to="/">Quienes somos</Link>
+                </li>
+              </> 
             }
 
-              <li className="nav-item pb-1 pe-3">
-                <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
-              </li>
+            <li className="nav-item pb-1 pe-3">
+              <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
+            </li>
             {user ? 
-              <><li className="nav-item pb-1 pe-3">
+              <>
+                <li className="nav-item pb-1 pe-3">
                   <LogOut />
-                </li><li className="nav-item pb-1 pe-3">
-                    <Link className={`${customLink}`} to="/misreservas">Mis Reservas</Link>
-                  </li></>
+                  </li>
+                <li className="nav-item pb-1 pe-3">
+                  <Link className={`${customLink}`} to="/misreservas">Mis Reservas</Link>
+                </li></>
               :
               <>
-              <li className="nav-item pb-1 pe-3">
+                <li className="nav-item pb-1 pe-3">
                   <Link to="/register" className={`${customLink}`}>Registrarse</Link>
                 </li>
                 <li className="nav-item pb-1 pe-3">
@@ -75,7 +76,6 @@ const NavBar = ({user}) => {
                 <Link to="/admin" className={`${customLink}`}>Administracion</Link>
               </li>
             }
-
             </ul>
           </div>
         </div>

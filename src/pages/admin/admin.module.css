@@ -1,0 +1,19 @@
+.btn {
+  font-size: 1.2rem;
+  border: none;
+  background-color: rgba(220, 181, 181, 0.055);
+  padding: 8px;
+}
+.btn:hover {
+  transition: .5s;
+  background-color: rgb(222, 120, 65);
+  color: white;
+  border-radius: 10px;
+}
+
+.active {
+  /* Estilos para el estado activo */
+  
+  border-bottom: 3px solid rgba(214, 92, 22, 0.906);
+
+}
