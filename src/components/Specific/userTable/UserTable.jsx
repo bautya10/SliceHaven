@@ -4,8 +4,8 @@ import {tableContainer} from "./table.module.css"
 import { useForm } from "react-hook-form"
 import {Cform, input} from '../../Specific/registerForm/registerForm.module.css'
 import Pagination from '../pagination/Pagination'
-import ReserveTable from '../ReserveTable/ReserveTable'
 import Search from '../search/Search'
+import Swal from 'sweetalert2';
 
 // eslint-disable-next-line react/prop-types
 const UserTable = ({user, setTokenInvalid}) => {
@@ -17,7 +17,6 @@ const UserTable = ({user, setTokenInvalid}) => {
   const [page, setPage] = useState("");
   const [searching, setSearching] = useState("");
   const [error, setError] = useState(false);
-
   // Autorizacion del token
   const tokenUser = user?.loguedUser.token
   const id = user?.loguedUser.userFounded._id
@@ -39,19 +38,19 @@ const UserTable = ({user, setTokenInvalid}) => {
           setError(true)
           if (error.response.data.message === "El token es invalido") {
             setTokenInvalid(true)
+            localStorage.removeItem("user");
+            setUser(null);
           }
         }
       };
       getUsers();
     }
   }, [tokenUser, page, searching, error]);
-
   // Funcion para editar
   const selectUser = (user) => {
     setSelectedUser(user);
     reset();
   };
-
   // onSubmit del modalEditar
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -65,13 +64,18 @@ const UserTable = ({user, setTokenInvalid}) => {
       });
       setCheckEmail("")
       document.getElementById("btnCerrar").click()
+      Swal.fire({
+        title: '¡Datos guardados!',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1500
+      });
     } catch (error) {
       console.log(error)
       setCheckEmail(error.response.data);
     }
     
   });
-
   // Funcion para eliminar un usuario
   const deleteUser = async () => {
     try {
@@ -82,10 +86,9 @@ const UserTable = ({user, setTokenInvalid}) => {
     }
   };
 
-
   return (<>
   {/* Tabla de usuarios */}
-  <div className='text-center mt-5 pt-5 ' >
+  <div className='text-center' >
     <h1 className='display-6'>Tabla de usuarios</h1>
     <Search setPage={setPage} setSearching={setSearching} setError={setError}/>
   </div>
@@ -124,9 +127,7 @@ const UserTable = ({user, setTokenInvalid}) => {
     </table>
       <Pagination totalPages={totalPages} setPage={setPage}/>
   </div>
-  <div className="container">
-      <ReserveTable/>
-    </div>
+ 
 
 {/* modal de edicion */}
   <div className="modal fade" id="editModal" aria-labelledby="editModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" >
@@ -142,7 +143,7 @@ const UserTable = ({user, setTokenInvalid}) => {
                 {...register("userName", {
                   validate:{
                     noValue: (value) => {
-                      if (value.trim() === "") return true; // No aplica validaciones si no se ingresa un carácter
+                      if (value.trim() === "") return true; 
                       return (
                        /^[a-zA-Z ]+$/.test(value) ||
                        "Ingrese solo letras, sin numeros ni caracteres especiales"
@@ -169,7 +170,7 @@ const UserTable = ({user, setTokenInvalid}) => {
               {...register("email", {
                 validate:{
                   noValue: (value) => {
-                    if (value.trim() === "") return true; // No aplica validaciones si no se ingresa un carácter
+                    if (value.trim() === "") return true; 
                     return (
                       /^[a-zA-Z0-9._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value) ||
                       "Ingrese un correo valido"
@@ -193,7 +194,7 @@ const UserTable = ({user, setTokenInvalid}) => {
                 {...register("password", {
                   validate: {
                     noValue: (value) => {
-                      if (value.trim() === "") return true; // No aplica validaciones si no se ingresa un carácter
+                      if (value.trim() === "") return true; 
                       return (
                         /^(?=.*[A-Z])(?=.*\d).{6,}$/.test(value) ||
                         "La contraseña debe contener al menos 6 caracteres, una mayúscula y un número"
