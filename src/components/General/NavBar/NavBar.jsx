@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import logo from "../../../assets/logo/logo.png"
 import { Link } from 'react-router-dom';
 import { customLink, customNavbar, imgLogo } from './navbar.module.css';
@@ -25,7 +26,7 @@ const NavBar = ({user}) => {
               <li className="nav-item pb-1 pe-3">
                 <Link to="/" className={`${customLink}`} aria-current="page">Inicio</Link>
               </li>
-             {isOnHomePage ?
+            {isOnHomePage ?
             <>
               <li className="nav-item pb-1 pe-3">
                 <a className={`${customLink}`} href="/#reservas">Reservas</a>
@@ -54,9 +55,11 @@ const NavBar = ({user}) => {
                 <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
               </li>
             {user ? 
-              <li className="nav-item pb-1 pe-3">
-                <LogOut/>
-              </li>
+              <><li className="nav-item pb-1 pe-3">
+                  <LogOut />
+                </li><li className="nav-item pb-1 pe-3">
+                    <Link className={`${customLink}`} to="/misreservas">Mis Reservas</Link>
+                  </li></>
               :
               <>
               <li className="nav-item pb-1 pe-3">

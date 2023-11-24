@@ -8,6 +8,7 @@ import Admin from "./pages/admin/Admin"
 import Menu from "./pages/MenuPage/MenuPage"
 import { useState, useEffect } from "react"
 import Footer from "./components/General/Footer/Footer"
+import MisReservas from "./pages/ReservasPage/MisReservas"
 import './style.css'
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/*" element={<Error404 />} />
         <Route path="/admin" element={tokenInvalid || !admin ?  <Error404/> : <Admin user={user} setTokenInvalid={setTokenInvalid}/>} />
         <Route path="/menu" element={<Menu />}/>
+        <Route path="/misreservas" element={<MisReservas user={user}/>}/>
       </Routes>
       <Footer/>
     </BrowserRouter>
