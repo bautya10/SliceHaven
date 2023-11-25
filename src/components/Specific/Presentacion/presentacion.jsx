@@ -4,7 +4,7 @@ import image4 from '../../../assets/imagegallery/image4.jpg';
 const Descrip = () => {
   return (
     <div className={`${styles.container} row`}>
-      <div className={`${styles.image} container-fluid mt-5`}>
+      <div className={`${styles.image} container-fluid`}>
         <img src={image4} className={`${styles.imageGallery} my-2`} alt="foto de nuestros platos gourmet" />
       </div>
       <div className={`${styles.text}`}>

@@ -6,7 +6,7 @@ import Descrip from '../../components/Specific/Presentacion/presentacion';
 
 const Home = () => {
   return (
-    <div>
+    <div id="home" className='pt-5'>
       <Descrip/>
       <GalleryImage/>
       <Reservas />
