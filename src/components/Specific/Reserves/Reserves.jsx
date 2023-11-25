@@ -7,7 +7,7 @@ import axios from 'axios';
 import Alert from "../Alert/Alert"
 registerLocale('es', es);
 
-const Reserves = ({editar,idUser,idReserva}) => {
+const Reserves = ({ editar, idUser, idReserva }) => {
   // funcion para borrar las alertas
   const borrarAlerta = () => {
     setTimeout(() => {
@@ -30,6 +30,19 @@ const Reserves = ({editar,idUser,idReserva}) => {
   const [crearReserva, setCrearReserva] = useState({
     user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).loguedUser.userFounded._id : '', // Obtén el ID de usuario desde localStorage
   });
+
+  const timesToCompare = [
+    { hour: 11, minute: 0, second: 0 },
+    { hour: 12, minute: 0, second: 0 },
+    { hour: 13, minute: 0, second: 0 },
+    { hour: 14, minute: 0, second: 0 },
+    { hour: 19, minute: 0, second: 0 },
+    { hour: 20, minute: 0, second: 0 },
+    { hour: 21, minute: 0, second: 0 },
+    { hour: 22, minute: 0, second: 0 },
+    { hour: 23, minute: 0, second: 0 },
+    { hour: 0, minute: 0, second: 0 }
+  ];
 
   // Obtenemos el día, mes y año de la fecha actual
   let D = startDate.getDate();
@@ -104,6 +117,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
   }
 
 
+  // console.log(setHours(setMinutes(new Date(), 0), 11))
 
   // esta funcion siver para guardar la reserva
   const guardar = async () => {
@@ -111,75 +125,85 @@ const Reserves = ({editar,idUser,idReserva}) => {
     if (crearReserva.user) {
       try {
 
+        function isMatchingTime(date, targetHour, targetMinute, targetSecond) {
+          return (
+            date.getHours() === targetHour &&
+            date.getMinutes() === targetMinute &&
+            date.getSeconds() === targetSecond
+          );
+        }
+
+
         let reservaOcupada = false;
-        
+
         if (excluirReservas.length > 0) {
-          //recorro el array y comparo las horas
+          // Recorre el array y compara las fechas y horas completas
           excluirReservas.forEach(element => {
-            const fecha = new Date(element)
-            if (fecha.getHours() == startDate.getHours()) {
-              reservaOcupada = true
+            const fecha = new Date(element);
+
+            // Verifica si la fecha y hora de startDate coincide con la reserva existente
+            if (
+              fecha.getHours() === startDate.getHours() &&
+              fecha.getMinutes() === startDate.getMinutes() &&
+              fecha.getSeconds() === startDate.getSeconds()
+            ) {
+              reservaOcupada = true;
             }
           });
         }
-        // pregunto, si reserva ocupada es verdador
-        if (reservaOcupada) {
 
+        // Verifica si hay una reserva ocupada
+        if (reservaOcupada) {
           setAlerta(
             <Alert
               texto={'Reserva ya ocupada'}
               color={'warning'}
               icon={'bi bi-exclamation-triangle-fill'}
-            />)
+            />
+          );
           borrarAlerta();
-
         } else if (
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 11).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 12).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 13).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 14).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 19).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 20).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 21).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 22).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 23).getHours() &&
-          startDate.getHours() != setHours(setMinutes(new Date(), 0), 0).getHours()) {
+          !timesToCompare.some(time => isMatchingTime(startDate, time.hour, time.minute, time.second))
+        ) {
+          // Verifica si la hora, minutos y segundos de startDate no coinciden con ninguna de las horas, minutos y segundos específicos
           setAlerta(
             <Alert
               texto={'Seleccione una hora'}
               color={'warning'}
               icon={'bi bi-exclamation-triangle-fill'}
-            />)
-          borrarAlerta()
+            />
+          );
+          borrarAlerta();
         } else if (crearReserva.people === '0') {
           setAlerta(
             <Alert
               texto={'Seleccionar cantidad de personas'}
               color={'warning'}
               icon={'bi bi-exclamation-triangle-fill'}
-            />)
+            />
+          );
           borrarAlerta();
-        }else if(editar){
-          crearReserva.user = idUser
-          // console.log(crearReserva)
+        } else if (editar) {
+          crearReserva.user = idUser;
           await axios.patch(`https://slicenhaven-backend.onrender.com/reserves/${idReserva}`, crearReserva);
           setAlerta(
             <Alert
               texto={'Reserva actualizada correctamente'}
               color={'success'}
               icon={'bi bi-check-circle-fill'}
-            />)
+            />
+          );
           borrarAlerta();
-        }
-        else {
-          //caso contrario, realizo la peticion
+        } else {
+          // Caso contrario, realiza la petición
           await axios.post('https://slicenhaven-backend.onrender.com/reserves/reservesCreate', crearReserva);
           setAlerta(
             <Alert
               texto={'Reserva tomada correctamente'}
               color={'success'}
               icon={'bi bi-check-circle-fill'}
-            />)
+            />
+          );
           borrarAlerta();
         }
       } catch (error) {
@@ -188,7 +212,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
     } else {
       //introducimos una alerta avisando que tienen que iniciar sesion
       setAlerta(<Alert
-      
+
         texto={'Debes iniciar sesion para tomar una reserva'}
         color={'danger'}
         icon={'bi bi-exclamation-triangle-fill'}
@@ -197,6 +221,15 @@ const Reserves = ({editar,idUser,idReserva}) => {
     }
     setActualizar(true)
   };
+
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
+
+
 
   return (
     <>
@@ -264,9 +297,10 @@ const Reserves = ({editar,idUser,idReserva}) => {
         // timeFormat="p" //formato del la hora en pm y aM
         timeIntervals={60}
 
+        filterTime={filterPassedTime}
 
       />
-      <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>{editar? 'Editar Reseva':'Hacer Reserva'}</button>
+      <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>{editar ? 'Editar Reseva' : 'Hacer Reserva'}</button>
       <div>{alerta}</div>
     </>
   )
