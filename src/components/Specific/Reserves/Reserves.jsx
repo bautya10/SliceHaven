@@ -84,6 +84,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
     }
     obtenerReservasExcluidas();
     setActualizar(false)
+    filterPassedTime();
   }, [startDate, actualizar, personas])
 
 
@@ -104,6 +105,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
   }
 
 
+  // console.log(setHours(setMinutes(new Date(), 0), 11))
 
   // esta funcion siver para guardar la reserva
   const guardar = async () => {
@@ -197,6 +199,15 @@ const Reserves = ({editar,idUser,idReserva}) => {
     }
     setActualizar(true)
   };
+ 
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
+
+  
 
   return (
     <>
@@ -264,6 +275,7 @@ const Reserves = ({editar,idUser,idReserva}) => {
         // timeFormat="p" //formato del la hora en pm y aM
         timeIntervals={60}
 
+        filterTime={filterPassedTime}
 
       />
       <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>{editar? 'Editar Reseva':'Hacer Reserva'}</button>
