@@ -3,7 +3,7 @@ import ReservasUsuario from "../../components/Specific/reservasUsuario/reservasU
 
 const MisReservas = ({user}) => {
   return (
-    <div>
+    <div className="container">
       <div className=" d-flex justify-content-md-center my-3  " id="reservas">
         <div>
           <ReservasUsuario user={user}/>

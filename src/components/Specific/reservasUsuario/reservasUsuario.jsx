@@ -77,7 +77,7 @@ const ReserveTable = ({user}) => {
 
       <div className="row">
         {reservaLogued?.map(element => (
-          <div className="col-12 col-md-6 col-lg-6 mb-3" key={element._id}>
+          <div className="col-12 col-md-6 col-lg-6 mb-3 p-3" key={element._id}>
             <div className="card">
               <div className="card-body card text-center">
                 <h5 className="card-title">Usuario: {element.user?.userName} </h5>
