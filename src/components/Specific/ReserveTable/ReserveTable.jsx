@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios';
 import Alert from '../Alert/Alert';
 import Reserves from '../Reserves/Reserves';
@@ -26,7 +26,7 @@ const ReserveTable = () => {
           return a.month - b.month || a.day - b.day
         }))
       } catch (error) {
-        console.log(error)
+        //Error
       }
     }
     //ejecuto la funcion
@@ -53,8 +53,8 @@ const ReserveTable = () => {
             icon={'bi bi-check-circle-fill'}
           />)
         borrarAlerta();
-      } catch (error) {
-        console.log(error)
+      } catch (error){
+        //Error
       }
     }
 

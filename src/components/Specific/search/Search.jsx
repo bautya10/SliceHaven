@@ -6,7 +6,6 @@ const Search = ({ setPage, setSearching, setError}) => {
     setPage(`&page=1`);
     setSearching(`&userName=${e.target.value}`);
     setError(false)
-    console.log(e.target.value)
   };
 
   return (

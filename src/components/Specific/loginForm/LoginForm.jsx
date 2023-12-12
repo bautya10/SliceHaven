@@ -15,7 +15,7 @@ const LoginForm = ({setUser}) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response = await axios.post("https://slicenhaven-backend.onrender.com/users/login", data);
+      const response = await axios.post("http://localhost:8000/users/login", data);
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data)
       navigate("/")
@@ -66,7 +66,7 @@ const LoginForm = ({setUser}) => {
         </div>
 
         <div className='text-center pt-2'>
-          <Link to="/registrar">¿No tienes una cuenta? Regístrate</Link>
+          <Link to="/register">¿No tienes una cuenta? Regístrate</Link>
         </div>
       </div>
     </form>

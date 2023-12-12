@@ -7,8 +7,7 @@ const Contact = () => {
   const { register, handleSubmit, formState:{errors}, setValue
 } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const onSubmit = handleSubmit(() => {
 
     alert('Su comentario fue enviado')
 

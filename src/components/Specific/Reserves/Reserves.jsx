@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addMonths, setHours, setMinutes } from 'date-fns'; // Importa la función addMonths
@@ -67,8 +67,8 @@ const Reserves = ({ editar, idUser, idReserva }) => {
       try {
         const result = await axios.get(`https://slicenhaven-backend.onrender.com/reserves/reservesAll`)
         diasDisponibles(result.data);
-      } catch (error) {
-        console.log(error)
+      } catch (error){
+        //Error
       }
     }
     //ejecuto la funcion
@@ -91,8 +91,8 @@ const Reserves = ({ editar, idUser, idReserva }) => {
       try {
         const result = await axios.get(`https://slicenhaven-backend.onrender.com/reserves/reserveDate/${D}-${M}-${Y}`)
         setExcluirReservas(result.data.result)
-      } catch (error) {
-        console.log(error)
+      } catch (error){
+        //Editarrror
       }
     }
     obtenerReservasExcluidas();
@@ -115,9 +115,6 @@ const Reserves = ({ editar, idUser, idReserva }) => {
     );
     setDiasOcupados(fechasOcupadas)
   }
-
-
-  // console.log(setHours(setMinutes(new Date(), 0), 11))
 
   // esta funcion siver para guardar la reserva
   const guardar = async () => {
@@ -207,7 +204,7 @@ const Reserves = ({ editar, idUser, idReserva }) => {
           borrarAlerta();
         }
       } catch (error) {
-        console.log(error);
+        //Error
       }
     } else {
       //introducimos una alerta avisando que tienen que iniciar sesion

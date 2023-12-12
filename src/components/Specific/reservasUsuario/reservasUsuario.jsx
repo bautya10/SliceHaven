@@ -24,8 +24,8 @@ const ReserveTable = ({user}) => {
             return a.month - b.month || a.day - b.day;
           })
         );
-      } catch (error) {
-        console.log(error);
+      } catch (error){
+        //Error
       }
     };
 
@@ -33,8 +33,6 @@ const ReserveTable = ({user}) => {
   }, [actualizar]);
 
   const reservaLogued = reservas?.filter(reserva => idLogued.includes(reserva._id));
-
-  console.log(reservaLogued)
 
 
   const eliminar = async (id) => {
@@ -46,7 +44,7 @@ const ReserveTable = ({user}) => {
         setActualizar(actualizar + 1);
         mostrarAlerta('Reserva eliminada correctamente', 'success', 'bi bi-check-circle-fill');
       } catch (error) {
-        console.log(error);
+        
       }
     }
   };
