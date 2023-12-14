@@ -44,7 +44,7 @@ const ReserveTable = ({ user }) => {
         setActualizar(actualizar + 1);
         mostrarAlerta('Reserva eliminada correctamente', 'success', 'bi bi-check-circle-fill');
       } catch (error) {
-        
+        //Error
       }
     }
   };
@@ -72,30 +72,32 @@ const ReserveTable = ({ user }) => {
     <>
       <h1 className='text-center'>Reservas</h1>
       {alerta}
-
-      <div className="row">
-        {reservaLogued?.map(element => (
-          <div className="col-12 col-md-6 col-lg-6 mb-3 p-3" key={element._id}>
-            <div className="card">
-              <div className="card-body card text-center">
-                <h5 className="card-title">Usuario: {element.user?.userName} </h5>
-                <h5 className="card-title">Fecha: {`${new Date(element.date).getDate()}-${new Date(element.date).getMonth()}-${new Date(element.date).getFullYear()} a ${new Date(element.date).getHours()}:${new Date(element.date).getMinutes()}:${new Date(element.date).getMinutes()} hs.`}</h5>
-                <h5 className="card-text">Personas: {element.people}</h5>
-                <div className="d-flex justify-content-around mt-3">
-                  <button className="btn btn-danger" onClick={() =>
-                    confirm("¿Desea eliminar la reservar?") == true ? eliminar(element._id) : ''}
-
-                  ><i className="bi bi-trash3"></i></button>
-                  <button className="btn btn-secondary" onClick={() => confirm("¿Desea editar la reservar?") == true ? editar(element.user._id, element._id) : ''}
-
-                    data-bs-toggle="modal" data-bs-target="#staticModalReserva"><i className="bi bi-pencil-square"></i></button>
+  
+      {reservaLogued && reservaLogued.length === 0 ? (
+        <h2 className='mt-5'>Aún no hay reservas.</h2>
+      ) : (
+        <div className="row">
+          {reservaLogued?.map(element => (
+            <div className="col-12 col-md-6 col-lg-6 mb-3 p-3" key={element._id}>
+              <div className="card">
+                <div className="card-body card text-center">
+                  <h5 className="card-title">Usuario: {element.user?.userName} </h5>
+                  <h5 className="card-title">Fecha: {`${new Date(element.date).getDate()}-${new Date(element.date).getMonth()}-${new Date(element.date).getFullYear()} a ${new Date(element.date).getHours()}:${new Date(element.date).getMinutes()}:${new Date(element.date).getMinutes()} hs.`}</h5>
+                  <h5 className="card-text">Personas: {element.people}</h5>
+                  <div className="d-flex justify-content-around mt-3">
+                    <button className="btn btn-danger" onClick={() =>
+                      confirm("¿Desea eliminar la reservar?") == true ? eliminar(element._id) : ''}
+                    ><i className="bi bi-trash3"></i></button>
+                    <button className="btn btn-secondary" onClick={() => confirm("¿Desea editar la reservar?") == true ? editar(element.user._id, element._id) : ''}
+                      data-bs-toggle="modal" data-bs-target="#staticModalReserva"><i className="bi bi-pencil-square"></i></button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
+          ))}
+        </div>
+      )}
+  
       <div className="modal fade" id="staticModalReserva" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticModalReservaLabel" aria-hidden="true">
         <div className="modal-dialog ">
           <div className="modal-content">
@@ -116,4 +118,4 @@ const ReserveTable = ({ user }) => {
   );
 };
 
-export default ReserveTable;
+export default ReserveTable
