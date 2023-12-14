@@ -92,6 +92,9 @@ const UserTable = ({user, setTokenInvalid}) => {
     <h1 className='display-6'>Tabla de usuarios</h1>
     <Search setPage={setPage} setSearching={setSearching} setError={setError}/>
   </div>
+  {error ? (
+            <h1 className='py-5 my-5 text-center'>No hay resultados.</h1>
+          ) : <>
   <div className={`container ${tableContainer}`}>
     <table className="table table-bordered mt-4">
       <thead>
@@ -105,9 +108,7 @@ const UserTable = ({user, setTokenInvalid}) => {
         </tr>
       </thead>
       <tbody>
-      {error ? (
-            <h1>no hay resultados</h1>
-          ) : <>
+  
         {usersInfo?.map((user, index) => (
             <tr key={index}>
               <th scope="row">{index + 1}</th>
@@ -121,12 +122,12 @@ const UserTable = ({user, setTokenInvalid}) => {
               </td>
             </tr>
           ))}
-          </>
-}
       </tbody>
     </table>
       <Pagination totalPages={totalPages} setPage={setPage}/>
   </div>
+          </>
+}
  
 
 {/* modal de edicion */}

@@ -11,31 +11,28 @@ const AboutUs = () => {
     {
       name: "Agustin Tarancon",
       description: "Soy Agustin, tengo 21 años y me gusta programar.",
-      linkedin: "",
-      instagram: "https://www.instagram.com/agustintarancon_/",
+      linkedin: "https://www.linkedin.com/in/agust%C3%ADn-taranc%C3%B3n-494b91283/",
       github: "https://github.com/agustintarancon",
       image: imagen1
     },
     {
       name: "Bautista Arias",
       description: "18 Años. Me gusta el futbol, el gym y programar.",
-      linkedin: "URL de LinkedIn del Miembro 2",
-      instagram: "https://www.instagram.com/bautia__/",
+      linkedin: "https://www.linkedin.com/in/bautista-arias-402910283/",
       github: "https://github.com/bautya10",
       image: imagen2
     },
     {
       name: "Dana Rocío Diaz",
       description: "Tengo 24 años soy profe de yoga y me encanta viajar!",
-      linkedin: "URL de LinkedIn del Miembro 2",
-      instagram: "https://www.instagram.com/danarodiaz/",
+      linkedin: "https://www.linkedin.com/in/dana-rocio-diaz-5a2b52275?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
       github: "https://github.com/danadiaz1999",
       image: imagen3
     },
     {
       name: "Emiliano Gasco",
       description: "Soy Gasco, 24 años, me gusta programar.",
-      instagram: "https://www.instagram.com/gascoemiliano/",
+      linkedin: "https://www.linkedin.com/in/emiliano-augusto-gasco-56ba40224/",
       github: "https://github.com/emilianogasco",
       image: imagen4
     }
@@ -54,9 +51,6 @@ const AboutUs = () => {
               <div className={style.socialIcons}>
                 <a href={member.linkedin} target="_blank" rel="noreferrer">
                   <i className={`bi bi-linkedin ${style.linkedinIcon}`}></i>
-                </a>
-                <a href={member.instagram} target="_blank" rel="noreferrer">
-                  <i className={`bi bi-instagram ${style.instagramIcon}`}></i>
                 </a>
                 <a href={member.github} target="_blank" rel="noreferrer">
                   <i className={`bi bi-github ${style.githubIcon}`}></i>

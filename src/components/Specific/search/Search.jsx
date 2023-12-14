@@ -3,10 +3,16 @@ import React from 'react'
 const Search = ({ setPage, setSearching, setError}) => {
 
   const searcher = (e) => {
-    setPage(`&page=1`);
-    setSearching(`&userName=${e.target.value}`);
-    setError(false)
-    console.log(e.target.value)
+    const inputValue = e.target.value;
+    
+    if (inputValue.length >= 3) {
+      setPage(`&page=1`);
+      setSearching(`&userName=${inputValue}`);
+    } else {
+      setPage('');
+      setSearching('');
+    }
+    setError(false);
   };
 
   return (

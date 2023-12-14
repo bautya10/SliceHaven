@@ -14,7 +14,7 @@ const NavBar = ({user}) => {
       <nav className={`navbar navbar-expand-lg ${customNavbar} w-100 fixed-top `}>
         <div className="container-fluid">
           <div>
-            <Link to="/" className="navbar-brand pe-3"><img src={logo} className={imgLogo} alt=""/></Link>
+            <Link to="/" className="navbar-brand pe-3"><img src={logo} className={imgLogo} alt="Logo de sliceHaven"/></Link>
           </div>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -22,11 +22,11 @@ const NavBar = ({user}) => {
           <div className="collapse navbar-collapse" id="navbar">
 
             <ul className="navbar-nav">
-              <li className="nav-item pb-1 pe-3">
-                <Link to="/" className={`${customLink}`} aria-current="page">Inicio</Link>
-              </li>
               {isOnHomePage ?
               <>
+              <li className="nav-item pb-1 pe-3">
+                <a href="#home" className={`${customLink}`}>Inicio</a>
+              </li>
                 <li className="nav-item pb-1 pe-3">
                   <a className={`${customLink}`} href="/#reservas">Reservas</a>
                 </li>
@@ -38,6 +38,9 @@ const NavBar = ({user}) => {
                 </li>
               </> : 
               <>
+                <li className="nav-item pb-1 pe-3">
+                  <Link to="/" className={`${customLink}`}>Inicio</Link>
+                 </li>
                 <li className="nav-item pb-1 pe-3">
                   <Link className={`${customLink}`} to="/">Reservas</Link>
                 </li>
