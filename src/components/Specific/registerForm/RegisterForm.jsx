@@ -9,15 +9,19 @@ const RegisterForm = () => {
   const navigate = useNavigate()
 
   const [checkEmail, setCheckEmail] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const {register, handleSubmit, formState:{ errors }, watch} = useForm(); 
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      setLoading(true)
       await axios.post("https://slicenhaven-backend.onrender.com/users/register", data);
       navigate("/login")
     } catch (error) {
       setCheckEmail(error.response.data);
+    } finally {
+      setLoading(false)
     }
   });
   
@@ -132,14 +136,19 @@ const RegisterForm = () => {
                 errors.checkbox && <p className='text-danger'>{errors.checkbox.message}</p>
               }
             </div>
+            <div className='d-flex  justify-content-end pt-3'>
+            {loading ? 
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              :
+                <button type="submit" className={`mb-3 ${buttonCustom}`}>Enviar</button>
+              }
+              </div>
 
-          <div className='d-flex  justify-content-end pt-3'>
-            <button type="submit" className={`mb-3 ${buttonCustom}`}>Enviar</button>
-          </div>
-
-          <div className='text-center pt-2'>
-            <Link to="/login">Ya tenes cuenta? inicia sesion</Link>
-          </div>
+            <div className='text-center pt-2'>
+              <Link to="/login">Ya tenes cuenta? inicia sesion</Link>
+            </div>
         </div>
       </form> 
   )
