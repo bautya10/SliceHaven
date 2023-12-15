@@ -56,14 +56,20 @@ const NavBar = ({user}) => {
             <li className="nav-item pb-1 pe-3">
               <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
             </li>
+            {admin &&
+              <li className="nav-item pb-1 pe-3">
+                <Link to="/admin" className={`${customLink}`}>Administracion</Link>
+              </li>
+            }
             {user ? 
               <>
                 <li className="nav-item pb-1 pe-3">
+                  <Link className={`${customLink}`} to="/misreservas">Mis Reservas</Link>
+                </li>
+                <li className="nav-item pb-1 pe-3">
                   <LogOut />
                   </li>
-                <li className="nav-item pb-1 pe-3">
-                  <Link className={`${customLink}`} to="/misreservas">Mis Reservas</Link>
-                </li></>
+                </>
               :
               <>
                 <li className="nav-item pb-1 pe-3">
@@ -73,11 +79,6 @@ const NavBar = ({user}) => {
                   <Link to="/login" className={`${customLink}`}>Iniciar Sesion</Link>
                 </li> 
               </>
-            }
-            {admin &&
-              <li className="nav-item pb-1 pe-3">
-                <Link to="/admin" className={`${customLink}`}>Administracion</Link>
-              </li>
             }
             </ul>
           </div>

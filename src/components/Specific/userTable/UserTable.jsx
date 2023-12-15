@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import {tableContainer} from "./table.module.css"
@@ -31,7 +32,7 @@ const UserTable = ({user, setTokenInvalid}) => {
           };
           const {data} = await axios.get(`https://slicenhaven-backend.onrender.com/users?${page}${searching}`, config);
 
-          const filteredUsers = data?.info.users.filter(user => user._id !== id);;
+          const filteredUsers = data?.info.users.filter(user => user._id !== id);
           setUsersInfo(filteredUsers);
           setTotalPages(data.info.totalPages)
         } catch (error) {
@@ -71,7 +72,6 @@ const UserTable = ({user, setTokenInvalid}) => {
         timer: 1500
       });
     } catch (error) {
-      console.log(error)
       setCheckEmail(error.response.data);
     }
     
@@ -81,8 +81,8 @@ const UserTable = ({user, setTokenInvalid}) => {
     try {
       await axios.delete(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`);
       setUsersInfo(prevUsers => prevUsers.filter(u => u._id !== selectedUser._id));
-    } catch (error) {
-      console.log(error);
+    } catch (error){
+      //Error
     }
   };
 
