@@ -7,6 +7,8 @@ import axios from 'axios'
 // eslint-disable-next-line react/prop-types
 const LoginForm = ({setUser}) => {
 
+  const [loading, setLoading] = useState(false);
+
   const [loginError, setLoginError] = useState(null);
 
   const navigate = useNavigate();
@@ -15,13 +17,22 @@ const LoginForm = ({setUser}) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      setLoading(true);
       const response = await axios.post("http://localhost:8000/users/login", data);
+      delete(response.data.loguedUser.userFounded.password)
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data)
       navigate("/")
     } catch (error) {
-      console.log(error.response.data);
-      setLoginError(error.response.data);
+      if(typeof error.response.data === "string") {
+        setLoginError(error.response.data);
+      }
+      if(typeof error.response.data === "object") {
+        setLoginError(error.response.data.error[0]);
+      }
+    }
+    finally{
+      setLoading(false);
     }
   });
   return (
@@ -60,11 +71,13 @@ const LoginForm = ({setUser}) => {
             errors.password && <p className='text-danger'>{errors.password.message}</p>
           }
         </div>
-
-        <div className='d-flex justify-content-end pt-3'>
+    <div className='d-flex justify-content-end pt-3'>
+        {loading ? <div className="spinner-border" role="status">
+    <span className="visually-hidden">Loading...</span>
+    </div> :  
           <button type="submit" className={`btn mb-3 ${buttonCustom}`}>Iniciar Sesión</button>
+        }
         </div>
-
         <div className='text-center pt-2'>
           <Link to="/register">¿No tienes una cuenta? Regístrate</Link>
         </div>
