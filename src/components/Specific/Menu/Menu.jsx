@@ -195,7 +195,7 @@ const Food = () => {
       </div>
 
       {/* Mostrar alimentos */}
-      <div className={`row`}>
+      <div className='row'>
         {comidas.map((item, index) => (
           <div
             key={index}
