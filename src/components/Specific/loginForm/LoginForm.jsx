@@ -18,7 +18,7 @@ const LoginForm = ({setUser}) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:8000/users/login", data);
+      const response = await axios.post("https://slicenhaven-backend.onrender.com/users/login", data);
       delete(response.data.loguedUser.userFounded.password)
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data)
