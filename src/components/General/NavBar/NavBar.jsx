@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 import logo from "../../../assets/logo/logo.png"
-import { Link } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link'; // Importar HashLink
 import { customLink, customNavbar, imgLogo } from './navbar.module.css';
 import LogOut from "../../Specific/logOut/logOut";
-import { useLocation } from 'react-router-dom';
+
 const NavBar = ({user}) => {
   const admin = user?.loguedUser.userFounded.admin
-  const location = useLocation();
-  const isOnHomePage = location.pathname === '/';
 
   return (
     <div>
@@ -20,42 +18,22 @@ const NavBar = ({user}) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbar">
-
             <ul className="navbar-nav">
-              {isOnHomePage ?
-              <>
               <li className="nav-item pb-1 pe-3">
-                <a href="#home" className={`${customLink}`}>Inicio</a>
+              <Link smooth to="/#home" className={`${customLink}`}>Inicio</Link>
               </li>
-                <li className="nav-item pb-1 pe-3">
-                  <a className={`${customLink}`} href="/#reservas">Reservas</a>
-                </li>
-                <li className="nav-item pb-1 pe-3">
-                  <a className={`${customLink}`} href="/#contacto">Contacto</a>
-                </li>
-                <li className="nav-item pb-1 pe-3">
-                  <a className={`${customLink}`} href="/#aboutUs">Quienes somos</a>
-                </li>
-              </> : 
-              <>
-                <li className="nav-item pb-1 pe-3">
-                  <Link to="/" className={`${customLink}`}>Inicio</Link>
-                 </li>
-                <li className="nav-item pb-1 pe-3">
-                  <Link className={`${customLink}`} to="/">Reservas</Link>
-                </li>
-                <li className="nav-item pb-1 pe-3">
-                  <Link className={`${customLink}`} to="/">Contacto</Link>
-                </li>
-                <li className="nav-item pb-1 pe-3">
-                  <Link className={`${customLink}`} to="/">Quienes somos</Link>
-                </li>
-              </> 
-            }
-
-            <li className="nav-item pb-1 pe-3">
-              <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
-            </li>
+              <li className="nav-item pb-1 pe-3">
+                <Link smooth to="/#reservas" className={`${customLink}`}>Reservas</Link>
+              </li>
+              <li className="nav-item pb-1 pe-3">
+                <Link smooth to="/#contacto" className={`${customLink}`}>Contacto</Link>
+              </li>
+              <li className="nav-item pb-1 pe-3">
+                <Link smooth to="/#aboutUs" className={`${customLink}`}>Quienes somos</Link>
+              </li>
+              <li className="nav-item pb-1 pe-3">
+                <Link to="/menu" className={` ${customLink}`} aria-current="page">Menu</Link>
+              </li>
             {admin &&
               <li className="nav-item pb-1 pe-3">
                 <Link to="/admin" className={`${customLink}`}>Administracion</Link>

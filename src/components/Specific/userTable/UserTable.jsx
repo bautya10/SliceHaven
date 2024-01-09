@@ -18,6 +18,9 @@ const UserTable = ({user, setTokenInvalid}) => {
   const [page, setPage] = useState("");
   const [searching, setSearching] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [loadingEdit, setLoadingEdit] = useState(false)
+  const [loadingDelete, setLoadingDelete] = useState(false)
   // Autorizacion del token
   const tokenUser = user?.loguedUser.token
   const id = user?.loguedUser.userFounded._id
@@ -25,6 +28,7 @@ const UserTable = ({user, setTokenInvalid}) => {
     if (tokenUser) {
       const getUsers = async () => {
         try {
+          setLoading(true)
           const config = {
             headers: {
               'Authorization': `Bearer ${tokenUser}`,
@@ -42,6 +46,8 @@ const UserTable = ({user, setTokenInvalid}) => {
             localStorage.removeItem("user");
             setUser(null);
           }
+        } finally {
+          setLoading(false)
         }
       };
       getUsers();
@@ -55,6 +61,7 @@ const UserTable = ({user, setTokenInvalid}) => {
   // onSubmit del modalEditar
   const onSubmit = handleSubmit(async (data) => {
     try {
+      setLoadingEdit(true)
       const filteredData = Object.fromEntries(
         Object.entries(data).filter(([key, value]) => value !== "")
       );
@@ -73,16 +80,22 @@ const UserTable = ({user, setTokenInvalid}) => {
       });
     } catch (error) {
       setCheckEmail(error.response.data);
+    } finally {
+      setLoadingEdit(false)
     }
     
   });
   // Funcion para eliminar un usuario
   const deleteUser = async () => {
     try {
+      setLoadingDelete(true)
       await axios.delete(`https://slicenhaven-backend.onrender.com/users/${selectedUser?._id}`);
       setUsersInfo(prevUsers => prevUsers.filter(u => u._id !== selectedUser._id));
+      document.getElementById("cancelDelete").click()
     } catch (error){
       //Error
+    } finally {
+      setLoadingDelete(false)
     }
   };
 
@@ -92,42 +105,50 @@ const UserTable = ({user, setTokenInvalid}) => {
     <h1 className='display-6'>Tabla de usuarios</h1>
     <Search setPage={setPage} setSearching={setSearching} setError={setError}/>
   </div>
-  {error ? (
-            <h1 className='py-5 my-5 text-center'>No hay resultados.</h1>
-          ) : <>
-  <div className={`container ${tableContainer}`}>
-    <table className="table table-bordered mt-4">
-      <thead>
-        <tr>
-          <td scope="col">#</td>
-          <th scope="col">userName</th>
-          <th scope="col">email</th>
-          <th scope="col">admin</th>
-          <th scope="col">suspended</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-  
-        {usersInfo?.map((user, index) => (
-            <tr key={index}>
-              <th scope="row">{index + 1}</th>
-              <td>{user.userName}</td>
-              <td>{user.email}</td>
-              <td>{user.admin.toString()}</td>
-              <td>{user.suspended.toString()}</td>
-              <td className='text-center'>
-                <button onClick={() => selectUser(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
-                <button  onClick={() => selectUser(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-      <Pagination totalPages={totalPages} setPage={setPage}/>
-  </div>
-          </>
-}
+  {loading ? 
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div> : 
+      <> 
+        {error ? (
+                  <h1 className='py-5 my-5 text-center'>No hay resultados.</h1>
+                ) : <>
+        <div className={`container ${tableContainer}`}>
+          
+          <table className="table table-bordered mt-4">
+            <thead>
+              <tr>
+                <td scope="col">#</td>
+                <th scope="col">userName</th>
+                <th scope="col">email</th>
+                <th scope="col">admin</th>
+                <th scope="col">suspended</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+            
+              {usersInfo?.map((user, index) => (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{user.userName}</td>
+                    <td>{user.email}</td>
+                    <td>{user.admin.toString()}</td>
+                    <td>{user.suspended.toString()}</td>
+                    <td className='text-center'>
+                      <button onClick={() => selectUser(user)} className='btn btn-danger mx-1' data-bs-toggle="modal" data-bs-target="#deleteModal"> <i className="bi bi-trash3"></i> </button> 
+                      <button  onClick={() => selectUser(user)} className='btn btn-secondary mx-1' data-bs-toggle="modal" data-bs-target="#editModal" ><i className="bi bi-pencil-square"></i></button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+            <Pagination totalPages={totalPages} setPage={setPage}/>
+        </div>
+        </>
+      }
+    </>
+  }
  
 
 {/* modal de edicion */}
@@ -232,7 +253,13 @@ const UserTable = ({user, setTokenInvalid}) => {
             </div>
           </div>
             <div className='d-flex justify-content-center'>
+           {loadingEdit ? 
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              :
               <button type="submit" className="btn btn-success mx-5">Guardar</button>
+            }
               <button type="button" className="btn btn-danger mx-5" data-bs-dismiss="modal" id="btnCerrar" onClick={()=>{
               }}>Cerrar</button>
             </div>
@@ -253,8 +280,14 @@ const UserTable = ({user, setTokenInvalid}) => {
             <p className=' font-monospace'>Esta acción eliminara la cuenta definitivamente.</p>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" onClick={deleteUser} className="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" id="cancelDelete">Cancelar</button>
+            {loadingDelete ? 
+             <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+             </div>
+             :
+            <button type="button" onClick={deleteUser} className="btn btn-danger">Eliminar</button>
+            }
           </div>
         </div>
       </div>
