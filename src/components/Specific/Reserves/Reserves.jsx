@@ -17,6 +17,8 @@ const Reserves = ({ editar, idUser, idReserva }) => {
   // Estado para una alerta
   const [alerta, setAlerta] = useState()
 
+  const [deshabilitado, setDeshabilitado] = useState(true)
+
   //estado para la cantidad de personas
   const [personas, setPersonas] = useState('0')
 
@@ -115,6 +117,24 @@ const Reserves = ({ editar, idUser, idReserva }) => {
     );
     setDiasOcupados(fechasOcupadas)
   }
+
+  useEffect(() => {
+    function isMatchingTime(date, targetHour, targetMinute, targetSecond) {
+      return (
+        date.getHours() === targetHour &&
+        date.getMinutes() === targetMinute &&
+        date.getSeconds() === targetSecond
+      );
+    }
+
+    if (timesToCompare.some(time => isMatchingTime(startDate, time.hour, time.minute, time.second) && personas != '0')) {
+      setDeshabilitado(false)
+    } else {
+      setDeshabilitado(true)
+    }
+
+  }, [personas, startDate])
+
 
   // esta funcion siver para guardar la reserva
   const guardar = async () => {
@@ -297,7 +317,7 @@ const Reserves = ({ editar, idUser, idReserva }) => {
         filterTime={filterPassedTime}
 
       />
-      <button onClick={guardar} className='btn btn-outline-success w-100 mt-3'>{editar ? 'Editar Reseva' : 'Hacer Reserva'}</button>
+      <button onClick={guardar} className='btn btn-outline-success w-100 mt-3 ' disabled={deshabilitado ? true : false} id='botonGuardar'>{editar ? 'Editar Reseva' : 'Hacer Reserva'}</button>
       <div>{alerta}</div>
     </>
   )
